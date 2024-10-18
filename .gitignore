@@ -1,0 +1,16 @@
+.idea/misc.xml
+.idea/vcs.xml
+.idea/workspace.xml
+psoft-project-2024-g1/Docs/.DS_Store
+psoft-project-2024-g1/Docs/.DS_Store
+psoft-project-2024-g1/target/generated-sources/annotations/pt/psoft/g1/psoftg1/authormanagement/api/AuthorViewMapperImpl.java
+psoft-project-2024-g1/target/generated-sources/annotations/pt/psoft/g1/psoftg1/authormanagement/services/AuthorMapperImpl.java
+psoft-project-2024-g1/target/generated-sources/annotations/pt/psoft/g1/psoftg1/bookmanagement/api/BookViewMapperImpl.java
+psoft-project-2024-g1/target/generated-sources/annotations/pt/psoft/g1/psoftg1/genremanagement/api/GenreViewMapperImpl.java
+psoft-project-2024-g1/target/generated-sources/annotations/pt/psoft/g1/psoftg1/lendingmanagement/api/FineViewMapperImpl.java
+psoft-project-2024-g1/target/generated-sources/annotations/pt/psoft/g1/psoftg1/lendingmanagement/api/LendingViewMapperImpl.java
+psoft-project-2024-g1/target/generated-sources/annotations/pt/psoft/g1/psoftg1/lendingmanagement/services/LendingMapperImpl.java
+psoft-project-2024-g1/target/generated-sources/annotations/pt/psoft/g1/psoftg1/readermanagement/api/ReaderViewMapperImpl.java
+psoft-project-2024-g1/target/generated-sources/annotations/pt/psoft/g1/psoftg1/readermanagement/services/ReaderMapperImpl.java
+psoft-project-2024-g1/target/generated-sources/annotations/pt/psoft/g1/psoftg1/usermanagement/api/UserViewMapperImpl.java
+psoft-project-2024-g1/target/generated-sources/annotations/pt/psoft/g1/psoftg1/usermanagement/services/EditUserMapperImpl.java
