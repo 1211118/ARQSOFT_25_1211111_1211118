@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +39,7 @@ import java.util.Optional;
 
 @Tag(name = "Author", description = "Endpoints for managing Authors")
 @RestController
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @RequestMapping("/api/authors")
 public class AuthorController {
     private final AuthorService authorService;
@@ -45,6 +47,16 @@ public class AuthorController {
     private final ConcurrencyService concurrencyService;
     private final FileStorageService fileStorageService;
     private final BookViewMapper bookViewMapper;
+
+    @Autowired
+    public AuthorController(AuthorService authorService, AuthorViewMapper authorViewMapper, ConcurrencyService concurrencyService, FileStorageService fileStorageService, BookViewMapper bookViewMapper) {
+        this.authorService = authorService;
+        this.authorViewMapper = authorViewMapper;
+        this.concurrencyService = concurrencyService;
+        this.fileStorageService = fileStorageService;
+        this.bookViewMapper = bookViewMapper;
+    }
+
 
 
     //Create
