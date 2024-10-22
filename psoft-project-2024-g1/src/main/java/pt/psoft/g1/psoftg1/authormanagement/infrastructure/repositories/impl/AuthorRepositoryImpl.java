@@ -6,13 +6,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import pt.psoft.g1.psoftg1.authormanagement.api.AuthorLendingView;
 import pt.psoft.g1.psoftg1.authormanagement.model.Author;
 import pt.psoft.g1.psoftg1.authormanagement.repositories.AuthorRepository;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +34,7 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     @Override
     public List<Author> searchByNameNameStartsWith(String name) {
         String queryStr = "SELECT a FROM Author a WHERE a.name.name LIKE :namePrefix";
-        TypedQuery<Author> query = entityManager.createQuery(queryStr, Author.class); // Use TypedQuery aqui
+        TypedQuery<Author> query = entityManager.createQuery(queryStr, Author.class); 
         query.setParameter("namePrefix", name + "%");
         return query.getResultList();
     }
@@ -48,14 +48,15 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     }
 
     @Override
-    public Author save(Author author) {
-        if (author.getId() == null) {
-            entityManager.persist(author);
-        } else {
-            entityManager.merge(author);
-        }
-        return author;
+    @Transactional
+public Author save(Author author) {
+    if (author.getAuthorNumber() == null) {  
+        entityManager.persist(author);
+    } else {
+        entityManager.merge(author);  
     }
+    return author;
+}
 
     @Override
     public Iterable<Author> findAll() {

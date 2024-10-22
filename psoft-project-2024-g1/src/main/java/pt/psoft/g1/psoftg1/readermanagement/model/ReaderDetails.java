@@ -167,4 +167,8 @@ public class ReaderDetails extends EntityWithPhoto {
     protected ReaderDetails() {
         // for ORM only
     }
+
+    public Long getPk() {
+        return pk;
+    }
 }

@@ -35,7 +35,7 @@ public class AuthorServiceImpl implements AuthorService {
  
 
     @Autowired
-    private ApplicationContext applicationContext;  // Injeção do ApplicationContext
+    private ApplicationContext applicationContext;  
 
     @Autowired
     public AuthorServiceImpl(BookRepository bookRepository, AuthorMapper mapper, PhotoRepository photoRepository) {

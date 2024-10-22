@@ -13,4 +13,6 @@
         <!-- <bean id="iA" class="pt.psoft.g1.psoftg1.authormanagement.infrastructure.repositories.impl.A2"/> -->
 
          <bean id="authorRepository" class="pt.psoft.g1.psoftg1.authormanagement.infrastructure.repositories.impl.AuthorRepositoryImpl"/> 
+
+         <bean id="genreRepository" class="pt.psoft.g1.psoftg1.genremanagement.infrastructure.repositories.impl.SpringDataGenreRepository"/> 
 </beans>

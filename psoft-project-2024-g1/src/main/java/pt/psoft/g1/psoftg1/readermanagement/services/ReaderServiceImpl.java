@@ -1,12 +1,18 @@
 package pt.psoft.g1.psoftg1.readermanagement.services;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.annotation.PostConstruct;
 import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
 import pt.psoft.g1.psoftg1.genremanagement.repositories.GenreRepository;
+import pt.psoft.g1.psoftg1.authormanagement.repositories.AuthorRepository;
 import pt.psoft.g1.psoftg1.exceptions.ConflictException;
 import pt.psoft.g1.psoftg1.exceptions.NotFoundException;
 import pt.psoft.g1.psoftg1.readermanagement.model.ReaderDetails;
@@ -23,14 +29,34 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class ReaderServiceImpl implements ReaderService {
     private final ReaderRepository readerRepo;
     private final UserRepository userRepo;
     private final ReaderMapper readerMapper;
-    private final GenreRepository genreRepo;
+    private  GenreRepository genreRepo;
     private final ForbiddenNameRepository forbiddenNameRepository;
     private final PhotoRepository photoRepository;
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Autowired
+    public ReaderServiceImpl(ReaderRepository readerRepo, UserRepository userRepo, ReaderMapper readerMapper, GenreRepository genreRepo, ForbiddenNameRepository forbiddenNameRepository, PhotoRepository photoRepository) {
+        this.readerRepo = readerRepo;
+        this.userRepo = userRepo;
+        this.readerMapper = readerMapper;
+        this.genreRepo = genreRepo;
+        this.forbiddenNameRepository = forbiddenNameRepository;
+        this.photoRepository = photoRepository;
+    }
+
+    @PostConstruct
+    private void initializeRepository() {
+        // Carregar dinamicamente o bean do AuthorRepository a partir do ApplicationContext
+        this.genreRepo = (GenreRepository) applicationContext.getBean("genreRepository");
+    }
+
 
 
     @Override

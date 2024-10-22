@@ -258,4 +258,8 @@ public class Lending {
         return lending;
 
     }
+
+    public Long getPk() {
+        return pk;
+    }
 }

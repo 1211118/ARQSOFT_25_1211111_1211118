@@ -1,29 +1,26 @@
 package pt.psoft.g1.psoftg1.authormanagement.model;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
+import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Getter;
-import org.hibernate.StaleObjectStateException;
 import pt.psoft.g1.psoftg1.authormanagement.services.UpdateAuthorRequest;
 import pt.psoft.g1.psoftg1.exceptions.ConflictException;
 import pt.psoft.g1.psoftg1.shared.model.EntityWithPhoto;
 import pt.psoft.g1.psoftg1.shared.model.Name;
 import pt.psoft.g1.psoftg1.shared.model.Photo;
 
-@Entity
-public class Author extends EntityWithPhoto {
+@Document(collection = "authors") // MongoDB collection
+public class AuthorMongo extends EntityWithPhoto {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "AUTHOR_NUMBER")
     @Getter
-    private Long authorNumber;
+    private String authorNumber; // MongoDB IDs são Strings (ObjectId)
 
     @Version
-    private long version;
+    private long version; // Controle de versão para atualizações concorrentes
 
-    @Embedded
     private Name name;
 
-    @Embedded
     private Bio bio;
 
     public void setName(String name) {
@@ -38,24 +35,23 @@ public class Author extends EntityWithPhoto {
         return version;
     }
 
-    public Long getId() {
+    public String getId() {
         return authorNumber;
     }
 
-    public Author(String name, String bio, String photo) {
+    public AuthorMongo(String name, String bio, String photo) {
         setName(name);
         setBio(bio);
-        setPhotoInternal(photo);
+        setPhoto(photo);
     }
 
-    protected Author() {
+    protected AuthorMongo() {
         // got ORM only
     }
 
-
     public void applyPatch(final long desiredVersion, final UpdateAuthorRequest request) {
         if (this.version != desiredVersion)
-            throw new StaleObjectStateException("Object was already modified by another user", this.authorNumber);
+            throw new ConflictException("Object was already modified by another user");
         if (request.getName() != null)
             setName(request.getName());
         if (request.getBio() != null)
@@ -79,4 +75,3 @@ public class Author extends EntityWithPhoto {
         return this.bio.toString();
     }
 }
-
