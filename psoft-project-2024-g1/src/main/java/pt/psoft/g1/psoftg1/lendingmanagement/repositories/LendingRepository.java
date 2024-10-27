@@ -1,6 +1,8 @@
 package pt.psoft.g1.psoftg1.lendingmanagement.repositories;
 
+import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
 import pt.psoft.g1.psoftg1.lendingmanagement.model.Lending;
+import pt.psoft.g1.psoftg1.readermanagement.model.ReaderDetails;
 import pt.psoft.g1.psoftg1.shared.services.Page;
 
 import java.time.LocalDate;
@@ -22,5 +24,6 @@ public interface LendingRepository {
     Lending save(Lending lending);
 
     void delete(Lending lending);
+    Optional<Genre> findByReaderDetails(ReaderDetails reader);
 
 }

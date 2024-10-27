@@ -13,8 +13,8 @@ import pt.psoft.g1.psoftg1.usermanagement.model.Reader;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-09-23T09:45:17+0100",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.39.0.v20240820-0604, environment: Java 17.0.12 (Eclipse Adoptium)"
+    date = "2024-10-27T14:27:42+0000",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (BellSoft)"
 )
 @Component
 public class ReaderViewMapperImpl extends ReaderViewMapper {
@@ -163,14 +163,14 @@ public class ReaderViewMapperImpl extends ReaderViewMapper {
 
         ReaderView readerView = new ReaderView();
 
+        readerView.setReaderNumber( map( readerDetails.getReaderNumber() ) );
         readerView.setBirthDate( map( readerDetails.getBirthDate() ) );
-        readerView.setGdprConsent( readerDetails.isGdprConsent() );
-        readerView.setInterestList( mapInterestList( readerDetails.getInterestList() ) );
-        readerView.setMarketingConsent( readerDetails.isMarketingConsent() );
         readerView.setPhoneNumber( map( readerDetails.getPhoneNumber() ) );
         readerView.setPhoto( map( readerDetails.getPhoto() ) );
-        readerView.setReaderNumber( map( readerDetails.getReaderNumber() ) );
+        readerView.setGdprConsent( readerDetails.isGdprConsent() );
+        readerView.setMarketingConsent( readerDetails.isMarketingConsent() );
         readerView.setThirdPartySharingConsent( readerDetails.isThirdPartySharingConsent() );
+        readerView.setInterestList( mapInterestList( readerDetails.getInterestList() ) );
 
         return readerView;
     }

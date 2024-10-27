@@ -1,5 +1,7 @@
 package pt.psoft.g1.psoftg1.bookmanagement.services;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +20,7 @@ import pt.psoft.g1.psoftg1.exceptions.NotFoundException;
 import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
 import pt.psoft.g1.psoftg1.readermanagement.model.ReaderDetails;
 import pt.psoft.g1.psoftg1.readermanagement.repositories.ReaderRepository;
+import pt.psoft.g1.psoftg1.reccomendation.RecommendationAlgorithm;
 import pt.psoft.g1.psoftg1.shared.repositories.PhotoRepository;
 import pt.psoft.g1.psoftg1.shared.services.Page;
 
@@ -37,8 +40,19 @@ public class BookServiceImpl implements BookService {
 	private final PhotoRepository photoRepository;
 	private final ReaderRepository readerRepository;
 
+
+	/* ------- */ 	/* ------- */ 	/* ------- */ 	/* ------- */
+	@Autowired
+	private ApplicationContext applicationContext;
+
 	@Value("${suggestionsLimitPerGenre}")
 	private long suggestionsLimitPerGenre;
+
+
+	@Value("${recAlg}")
+	private String selectedRecAlg;
+
+    /* ------- */ 	/* ------- */ 	/* ------- */ 	/* ------- */
 
 	@Override
 	public Book create(CreateBookRequest request, String isbn) {
@@ -165,7 +179,10 @@ public class BookServiceImpl implements BookService {
 				.orElseThrow(() -> new NotFoundException(Book.class, isbn));
 	}
 
+	 	/* ------- */ 	/* ------- */ 	/* ------- */ 	/* ------- */
+
 	public List<Book> getBooksSuggestionsForReader(String readerNumber) {
+		/* 
 		List<Book> books = new ArrayList<>();
 
 		ReaderDetails readerDetails = readerRepository.findByReaderNumber(readerNumber)
@@ -195,7 +212,15 @@ public class BookServiceImpl implements BookService {
 		}
 
 		return books;
+
+		*/
+
+		RecommendationAlgorithm recAlg = applicationContext.getBean(selectedRecAlg, RecommendationAlgorithm.class);
+		return recAlg.getCustomRecommendations(readerNumber);
+
 	}
+
+	 	/* ------- */ 	/* ------- */ 	/* ------- */ 	/* ------- */
 
 	@Override
 	public List<Book> searchBooks(Page page, SearchBooksQuery query) {
