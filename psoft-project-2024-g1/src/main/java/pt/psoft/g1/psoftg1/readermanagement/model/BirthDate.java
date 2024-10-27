@@ -55,6 +55,14 @@ public class BirthDate {
         this.birthDate = userDate;
     }
 
+    /* ------- */ 	/* ------- */ 	/* ------- */ 	/* ------- */
+
+    public int getAge() {
+        return LocalDate.now().getYear() - this.birthDate.getYear();
+    }
+
+    /* ------- */ 	/* ------- */ 	/* ------- */ 	/* ------- */
+    
     public String toString() {
         return String.format("%d-%d-%d", this.birthDate.getYear(), this.birthDate.getMonthValue(), this.birthDate.getDayOfMonth());
     }
