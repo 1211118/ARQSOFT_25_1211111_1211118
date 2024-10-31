@@ -8,7 +8,7 @@ public class AuthorConverter {
     public static AuthorMongo toMongo(Author author) {
         return new AuthorMongo(
             author.getName(),
-            null,
+            author.getBio(),
             null
         );
     }
@@ -16,7 +16,7 @@ public class AuthorConverter {
     public static Author toJpa(AuthorMongo authorMongo) {
         return new Author(
             authorMongo.getName(),
-            null,
+            authorMongo.getBio(),
             null
         );
     }

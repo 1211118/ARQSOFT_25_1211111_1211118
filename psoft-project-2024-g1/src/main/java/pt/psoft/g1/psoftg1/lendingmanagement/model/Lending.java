@@ -106,7 +106,7 @@ public class Lending {
      * */
     @Size(min = 0, max = 1024)
     @Column(length = 1024)
-    private String commentary = null;
+    public String commentary = null;
 
     @Transient
     private Integer daysUntilReturn;

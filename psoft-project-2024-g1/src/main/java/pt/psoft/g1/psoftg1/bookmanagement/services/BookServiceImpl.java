@@ -1,18 +1,23 @@
 package pt.psoft.g1.psoftg1.bookmanagement.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.annotation.PostConstruct;
 import pt.psoft.g1.psoftg1.authormanagement.model.Author;
 import pt.psoft.g1.psoftg1.bookmanagement.model.*;
 import pt.psoft.g1.psoftg1.bookmanagement.repositories.BookRepository;
 import lombok.RequiredArgsConstructor;
 import pt.psoft.g1.psoftg1.genremanagement.repositories.GenreRepository;
 import pt.psoft.g1.psoftg1.authormanagement.repositories.AuthorRepository;
+import pt.psoft.g1.psoftg1.authormanagement.services.AuthorMapper;
 import pt.psoft.g1.psoftg1.exceptions.ConflictException;
 import pt.psoft.g1.psoftg1.exceptions.NotFoundException;
 import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
@@ -27,15 +32,35 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @PropertySource({"classpath:config/library.properties"})
 public class BookServiceImpl implements BookService {
 
-	private final BookRepository bookRepository;
-	private final GenreRepository genreRepository;
-	private final AuthorRepository authorRepository;
+	private BookRepository bookRepository;
+	private  GenreRepository genreRepository;
+	private  AuthorRepository authorRepository;
 	private final PhotoRepository photoRepository;
-	private final ReaderRepository readerRepository;
+	private  ReaderRepository readerRepository;
+
+	@Autowired
+    private ApplicationContext applicationContext; 
+
+	public BookServiceImpl(PhotoRepository photoRepository) {
+		
+		this.photoRepository = photoRepository;
+		
+	}
+
+    @PostConstruct
+    private void initializeRepository() {
+        // Carregar dinamicamente o bean do AuthorRepository a partir do ApplicationContext
+        this.bookRepository = (BookRepository) applicationContext.getBean("bookRepository");
+		this.genreRepository = (GenreRepository) applicationContext.getBean("genreRepository");
+		this.authorRepository = (AuthorRepository) applicationContext.getBean("authorRepository");
+		this.readerRepository = (ReaderRepository) applicationContext.getBean("readerRepository");
+
+    }
+
 
 	@Value("${suggestionsLimitPerGenre}")
 	private long suggestionsLimitPerGenre;

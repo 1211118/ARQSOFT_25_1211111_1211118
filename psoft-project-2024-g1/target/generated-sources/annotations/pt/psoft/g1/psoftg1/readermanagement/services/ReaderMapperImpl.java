@@ -10,7 +10,7 @@ import pt.psoft.g1.psoftg1.usermanagement.model.Reader;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-10-22T16:27:57+0100",
+    date = "2024-10-31T00:03:33+0000",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.40.0.v20240919-1711, environment: Java 17.0.12 (Eclipse Adoptium)"
 )
 @Component

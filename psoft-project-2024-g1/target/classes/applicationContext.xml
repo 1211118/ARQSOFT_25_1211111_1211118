@@ -12,7 +12,17 @@
 
         <!-- <bean id="iA" class="pt.psoft.g1.psoftg1.authormanagement.infrastructure.repositories.impl.A2"/> -->
 
-         <bean id="authorRepository" class="pt.psoft.g1.psoftg1.authormanagement.infrastructure.repositories.impl.AuthorRepositoryImpl"/> 
+         <bean id="authorRepository" class="pt.psoft.g1.psoftg1.authormanagement.infrastructure.repositories.impl.AuthorMongoRepositoryImpl"/> 
 
-         <bean id="genreRepository" class="pt.psoft.g1.psoftg1.genremanagement.infrastructure.repositories.impl.SpringDataGenreRepository"/> 
+         <bean id="genreRepository" class="pt.psoft.g1.psoftg1.genremanagement.infrastructure.repositories.impl.MongoGenreRepository"/> 
+
+         <bean id="bookRepository" class="pt.psoft.g1.psoftg1.bookmanagement.infrastructure.repositories.impl.MongoBookRepository"/>
+
+         <bean id="lendingRepository" class="pt.psoft.g1.psoftg1.lendingmanagement.infrastructure.repositories.impl.MongoLendingRepository"/>
+
+         <bean id="readerRepository" class="pt.psoft.g1.psoftg1.readermanagement.infraestructure.repositories.impl.MongoReaderRepository"/>
+
+         <bean id="userRepository" class="pt.psoft.g1.psoftg1.usermanagement.infrastructure.repositories.impl.MongoUserRepository"/>
+
+         
 </beans>

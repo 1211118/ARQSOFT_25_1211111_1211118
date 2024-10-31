@@ -59,9 +59,9 @@ public class ReaderDetails extends EntityWithPhoto {
     private List<Genre> interestList;
 
     public ReaderDetails(int readerNumber, Reader reader, String birthDate, String phoneNumber, boolean gdpr, boolean marketing, boolean thirdParty, String photoURI, List<Genre> interestList) {
-        if(reader == null || phoneNumber == null) {
+        /*if(reader == null || phoneNumber == null) {
             throw new IllegalArgumentException("Provided argument resolves to null object");
-        }
+        }*/
 
         if(!gdpr) {
             throw new IllegalArgumentException("Readers must agree with the GDPR rules");

@@ -12,6 +12,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -26,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @CacheConfig(cacheNames = "users")
 @RequiredArgsConstructor
+@Primary
 public class SpringDataUserRepository implements UserRepository {
 
     // Dependência para o EntityManager, injetada via construtor

@@ -31,8 +31,8 @@ import org.springframework.data.domain.Pageable;
 @Service
 //@RequiredArgsConstructor
 public class ReaderServiceImpl implements ReaderService {
-    private final ReaderRepository readerRepo;
-    private final UserRepository userRepo;
+    private ReaderRepository readerRepo;
+    private  UserRepository userRepo;
     private final ReaderMapper readerMapper;
     private  GenreRepository genreRepo;
     private final ForbiddenNameRepository forbiddenNameRepository;
@@ -42,18 +42,19 @@ public class ReaderServiceImpl implements ReaderService {
     private ApplicationContext applicationContext;
 
     @Autowired
-    public ReaderServiceImpl(ReaderRepository readerRepo, UserRepository userRepo, ReaderMapper readerMapper, GenreRepository genreRepo, ForbiddenNameRepository forbiddenNameRepository, PhotoRepository photoRepository) {
-        this.readerRepo = readerRepo;
-        this.userRepo = userRepo;
+    public ReaderServiceImpl(ReaderMapper readerMapper, ForbiddenNameRepository forbiddenNameRepository, PhotoRepository photoRepository) {
+        
         this.readerMapper = readerMapper;
-        this.genreRepo = genreRepo;
         this.forbiddenNameRepository = forbiddenNameRepository;
         this.photoRepository = photoRepository;
     }
 
     @PostConstruct
     private void initializeRepository() {
+        this.readerRepo = (ReaderRepository) applicationContext.getBean("readerRepository");
         // Carregar dinamicamente o bean do AuthorRepository a partir do ApplicationContext
+        this.userRepo = (UserRepository) applicationContext.getBean("userRepository");
+
         this.genreRepo = (GenreRepository) applicationContext.getBean("genreRepository");
     }
 

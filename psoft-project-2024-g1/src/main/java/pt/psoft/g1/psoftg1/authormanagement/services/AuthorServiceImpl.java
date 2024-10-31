@@ -29,7 +29,7 @@ import java.util.Optional;
 //@RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
     private AuthorRepository authorRepository;
-    private final BookRepository bookRepository;
+    private BookRepository bookRepository;
     private final AuthorMapper mapper;
     private final PhotoRepository photoRepository;
  
@@ -38,8 +38,7 @@ public class AuthorServiceImpl implements AuthorService {
     private ApplicationContext applicationContext;  
 
     @Autowired
-    public AuthorServiceImpl(BookRepository bookRepository, AuthorMapper mapper, PhotoRepository photoRepository) {
-        this.bookRepository = bookRepository;
+    public AuthorServiceImpl(AuthorMapper mapper, PhotoRepository photoRepository) {
         this.mapper = mapper;
         this.photoRepository = photoRepository;
     }
@@ -48,6 +47,8 @@ public class AuthorServiceImpl implements AuthorService {
     private void initializeRepository() {
         // Carregar dinamicamente o bean do AuthorRepository a partir do ApplicationContext
         this.authorRepository = (AuthorRepository) applicationContext.getBean("authorRepository");
+        this.bookRepository = (BookRepository) applicationContext.getBean("bookRepository");
+
     }
 
 

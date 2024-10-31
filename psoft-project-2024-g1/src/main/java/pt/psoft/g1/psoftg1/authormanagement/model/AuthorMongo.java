@@ -13,8 +13,10 @@ import pt.psoft.g1.psoftg1.shared.model.Photo;
 @Document(collection = "authors") // MongoDB collection
 public class AuthorMongo extends EntityWithPhoto {
     @Id
+    private String id;
+
     @Getter
-    private String authorNumber; // MongoDB IDs são Strings (ObjectId)
+    private Long authorNumber; // MongoDB IDs são Strings (ObjectId)
 
     @Version
     private long version; // Controle de versão para atualizações concorrentes
@@ -31,17 +33,23 @@ public class AuthorMongo extends EntityWithPhoto {
         this.bio = new Bio(bio);
     }
 
+    public void setAuthorNumber(Long authorNumber) {
+        this.authorNumber = authorNumber;
+    }
+
     public Long getVersion() {
         return version;
     }
 
-    public String getId() {
+    public Long getId() {
         return authorNumber;
     }
 
     public AuthorMongo(String name, String bio, String photo) {
+
         setName(name);
         setBio(bio);
+        setAuthorNumber(1L);
         setPhoto(photo);
     }
 
