@@ -1,12 +1,18 @@
 package pt.psoft.g1.psoftg1.bootstrapping;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import jakarta.annotation.PostConstruct;
 import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
 import pt.psoft.g1.psoftg1.genremanagement.repositories.GenreRepository;
 import pt.psoft.g1.psoftg1.readermanagement.model.ReaderDetails;
@@ -25,16 +31,34 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Profile("bootstrap")
 @Order(1)
 public class UserBootstrapper implements CommandLineRunner {
 
-    private final UserRepository userRepository;
-    private final ReaderRepository readerRepository;
-    private final GenreRepository genreRepository;
+    private  UserRepository userRepository;
+    private  ReaderRepository readerRepository;
+    private  GenreRepository genreRepository;
     private final JdbcTemplate jdbcTemplate;
     private List<String> queriesToExecute = new ArrayList<>();
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    public UserBootstrapper(JdbcTemplate jdbcTemplate) {
+        
+        
+        
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @PostConstruct
+    private void initializeRepository() {
+        // Carregar dinamicamente o bean do UserRepository a partir do ApplicationContext
+        this.userRepository = (UserRepository) applicationContext.getBean("userRepository");
+        this.genreRepository = (GenreRepository) applicationContext.getBean("genreRepository");
+        this.readerRepository = (ReaderRepository) applicationContext.getBean("readerRepository");
+    }
 
     @Override
     @Transactional
@@ -44,10 +68,13 @@ public class UserBootstrapper implements CommandLineRunner {
         executeQueries();
     }
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private void createReaders() {
         //Reader1 - Manuel
         if (userRepository.findByUsername("manuel@gmail.com").isEmpty()) {
-            final Reader manuel = Reader.newReader("manuel@gmail.com", "Manuelino123!", "Manuel Sarapinto das Coives");
+            final Reader manuel = Reader.newReader("manuel@gmail.com","Manuelino123!" , "Manuel Sarapinto das Coives");
             userRepository.save(manuel);
 
             //String dateFormat = LocalDateTime.of(LocalDate.of(2024, 1, 20), LocalTime.now()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS"));

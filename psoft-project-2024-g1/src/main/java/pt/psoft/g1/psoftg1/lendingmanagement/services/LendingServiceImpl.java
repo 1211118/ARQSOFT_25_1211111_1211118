@@ -1,9 +1,15 @@
 package pt.psoft.g1.psoftg1.lendingmanagement.services;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+
+import jakarta.annotation.PostConstruct;
+import pt.psoft.g1.psoftg1.authormanagement.repositories.AuthorRepository;
 import pt.psoft.g1.psoftg1.bookmanagement.repositories.BookRepository;
 import pt.psoft.g1.psoftg1.exceptions.LendingForbiddenException;
 import pt.psoft.g1.psoftg1.exceptions.NotFoundException;
@@ -21,13 +27,32 @@ import java.util.Locale;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @PropertySource({"classpath:config/library.properties"})
 public class LendingServiceImpl implements LendingService{
-    private final LendingRepository lendingRepository;
+    private LendingRepository lendingRepository;
     private final FineRepository fineRepository;
-    private final BookRepository bookRepository;
-    private final ReaderRepository readerRepository;
+    private  BookRepository bookRepository;
+    private  ReaderRepository readerRepository;
+
+    @Autowired
+    private ApplicationContext applicationContext;  
+
+    public LendingServiceImpl(FineRepository fineRepository) {
+        
+        this.fineRepository = fineRepository;
+
+    }
+
+    @PostConstruct
+    private void initializeRepository() {
+        // Carregar dinamicamente o bean do AuthorRepository a partir do ApplicationContext
+        this.lendingRepository = (LendingRepository) applicationContext.getBean("lendingRepository");
+        this.bookRepository = (BookRepository) applicationContext.getBean("bookRepository");
+        this.readerRepository = (ReaderRepository) applicationContext.getBean("readerRepository");
+    }
+
+
 
     @Value("${lendingDurationInDays}")
     private int lendingDurationInDays;

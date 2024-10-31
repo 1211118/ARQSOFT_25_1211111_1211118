@@ -11,8 +11,8 @@ import pt.psoft.g1.psoftg1.bookmanagement.model.Book;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-10-27T14:27:41+0000",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (BellSoft)"
+    date = "2024-10-30T23:14:54+0000",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.40.0.v20240919-1711, environment: Java 17.0.12 (Eclipse Adoptium)"
 )
 @Component
 public class AuthorViewMapperImpl extends AuthorViewMapper {
@@ -26,8 +26,8 @@ public class AuthorViewMapperImpl extends AuthorViewMapper {
         AuthorView authorView = new AuthorView();
 
         authorView.setAuthorNumber( author.getAuthorNumber() );
-        authorView.setName( map( author.getName() ) );
         authorView.setBio( map( author.getBio() ) );
+        authorView.setName( map( author.getName() ) );
         authorView.setPhoto( map( author.getPhoto() ) );
 
         authorView.set_links( mapLinks(author) );
@@ -78,8 +78,8 @@ public class AuthorViewMapperImpl extends AuthorViewMapper {
         BookShortView bookShortView = new BookShortView();
 
         bookShortView.set_links( mapShortBookLink( book ) );
-        bookShortView.setTitle( map( book.getTitle() ) );
         bookShortView.setIsbn( map( book.getIsbn() ) );
+        bookShortView.setTitle( map( book.getTitle() ) );
 
         return bookShortView;
     }

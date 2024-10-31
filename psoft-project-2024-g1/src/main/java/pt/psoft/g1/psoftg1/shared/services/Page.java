@@ -22,4 +22,9 @@ public class Page {
     public Page() {
         this(1, 10);
     }
+
+    public int getPageSize() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPageSize'");
+    }
 }

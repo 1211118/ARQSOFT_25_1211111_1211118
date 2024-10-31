@@ -1,13 +1,22 @@
 package pt.psoft.g1.psoftg1.authormanagement.services;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.annotation.PostConstruct;
 import pt.psoft.g1.psoftg1.authormanagement.api.AuthorLendingView;
+import pt.psoft.g1.psoftg1.authormanagement.infrastructure.repositories.impl.AuthorRepositoryImpl;
 import pt.psoft.g1.psoftg1.authormanagement.model.Author;
 import pt.psoft.g1.psoftg1.authormanagement.repositories.AuthorRepository;
+import pt.psoft.g1.psoftg1.authormanagement.repositories.iA;
 import pt.psoft.g1.psoftg1.bookmanagement.model.Book;
 import pt.psoft.g1.psoftg1.bookmanagement.repositories.BookRepository;
 import pt.psoft.g1.psoftg1.exceptions.NotFoundException;
@@ -17,12 +26,34 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
-    private final AuthorRepository authorRepository;
-    private final BookRepository bookRepository;
+    private AuthorRepository authorRepository;
+    private BookRepository bookRepository;
     private final AuthorMapper mapper;
     private final PhotoRepository photoRepository;
+ 
+
+    @Autowired
+    private ApplicationContext applicationContext;  
+
+    @Autowired
+    public AuthorServiceImpl(AuthorMapper mapper, PhotoRepository photoRepository) {
+        this.mapper = mapper;
+        this.photoRepository = photoRepository;
+    }
+
+    @PostConstruct
+    private void initializeRepository() {
+        // Carregar dinamicamente o bean do AuthorRepository a partir do ApplicationContext
+        this.authorRepository = (AuthorRepository) applicationContext.getBean("authorRepository");
+        this.bookRepository = (BookRepository) applicationContext.getBean("bookRepository");
+
+    }
+
+
+
+
 
     @Override
     public Iterable<Author> findAll() {
@@ -104,6 +135,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public List<Book> findBooksByAuthorNumber(Long authorNumber){
+        //myobject.someFunction(); // Chama o método doSomething do bean iA
         return bookRepository.findBooksByAuthorNumber(authorNumber);
     }
 

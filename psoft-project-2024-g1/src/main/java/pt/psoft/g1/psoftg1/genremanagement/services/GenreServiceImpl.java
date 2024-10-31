@@ -1,9 +1,15 @@
 package pt.psoft.g1.psoftg1.genremanagement.services;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import jakarta.annotation.PostConstruct;
+import pt.psoft.g1.psoftg1.authormanagement.repositories.AuthorRepository;
 import pt.psoft.g1.psoftg1.bookmanagement.services.GenreBookCountDTO;
 import pt.psoft.g1.psoftg1.exceptions.NotFoundException;
 import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
@@ -16,10 +22,24 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class GenreServiceImpl implements GenreService {
 
-    private final GenreRepository genreRepository;
+    private GenreRepository genreRepository;
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Autowired
+    public GenreServiceImpl(GenreRepository genreRepository) {
+        this.genreRepository = genreRepository;
+    }
+
+    @PostConstruct
+    private void initializeRepository() {
+        // Carregar dinamicamente o bean do AuthorRepository a partir do ApplicationContext
+        this.genreRepository = (GenreRepository) applicationContext.getBean("genreRepository");
+    }
 
 
     public Optional<Genre> findByString(String name) {

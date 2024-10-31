@@ -21,6 +21,9 @@
 package pt.psoft.g1.psoftg1.usermanagement.services;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,7 +33,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import jakarta.annotation.PostConstruct;
 import pt.psoft.g1.psoftg1.exceptions.ConflictException;
+import pt.psoft.g1.psoftg1.genremanagement.repositories.GenreRepository;
+import pt.psoft.g1.psoftg1.readermanagement.repositories.ReaderRepository;
 import pt.psoft.g1.psoftg1.shared.repositories.ForbiddenNameRepository;
 import pt.psoft.g1.psoftg1.shared.services.Page;
 import pt.psoft.g1.psoftg1.usermanagement.model.Librarian;
@@ -47,15 +54,32 @@ import java.util.Optional;
  *
  */
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
-	private final UserRepository userRepo;
+	private UserRepository userRepo;
 	private final EditUserMapper userEditMapper;
 
 	private final ForbiddenNameRepository forbiddenNameRepository;
 
 	private final PasswordEncoder passwordEncoder;
+
+	@Autowired
+    private ApplicationContext applicationContext;
+
+	public UserService(EditUserMapper userEditMapper, ForbiddenNameRepository forbiddenNameRepository, PasswordEncoder passwordEncoder) {
+		this.userEditMapper = userEditMapper;
+		this.forbiddenNameRepository = forbiddenNameRepository;
+		this.passwordEncoder = passwordEncoder;
+	}
+
+	@PostConstruct
+    private void initializeRepository() {
+        // Carregar dinamicamente o bean do AuthorRepository a partir do ApplicationContext
+        this.userRepo = (UserRepository) applicationContext.getBean("userRepository");
+    }
+
+
 
 	public List<User> findByName(String name){
 		return this.userRepo.findByNameName(name);
@@ -63,39 +87,39 @@ public class UserService implements UserDetailsService {
 	public List<User> findByNameLike(String name) { return this.userRepo.findByNameNameContains(name); }
 
 	@Transactional
-	public User create(final CreateUserRequest request) {
-		if (userRepo.findByUsername(request.getUsername()).isPresent()) {
-			throw new ConflictException("Username already exists!");
-		}
+public User create(final CreateUserRequest request) {
+    if (userRepo.findByUsername(request.getUsername()).isPresent()) {
+        throw new ConflictException("Username already exists!");
+    }
 
-		Iterable<String> words = List.of(request.getName().split("\\s+"));
-		for (String word : words){
-			if(!forbiddenNameRepository.findByForbiddenNameIsContained(word).isEmpty()) {
-				throw new IllegalArgumentException("Name contains a forbidden word");
-			}
-		}
+    Iterable<String> words = List.of(request.getName().split("\\s+"));
+    for (String word : words) {
+        if (!forbiddenNameRepository.findByForbiddenNameIsContained(word).isEmpty()) {
+            throw new IllegalArgumentException("Name contains a forbidden word");
+        }
+    }
 
-		User user;
-		switch(request.getRole()) {
-			case Role.READER: {
-				user = Reader.newReader(request.getUsername(), request.getPassword(), request.getName());
-				break;
-			}
-			case Role.LIBRARIAN: {
-				user = Librarian.newLibrarian(request.getUsername(), request.getPassword(), request.getName());
-				break;
-			}
-			default: {
-				return null;
-			}
-		}
+    User user;
+    switch (request.getRole()) {
+        case Role.READER: {
+            user = Reader.newReader(request.getUsername(), request.getPassword(), request.getName());
+            break;
+        }
+        case Role.LIBRARIAN: {
+            user = Librarian.newLibrarian(request.getUsername(), request.getPassword(), request.getName());
+            break;
+        }
+        default: {
+            return null;
+        }
+    }
 
-		//final User user = userEditMapper.create(request);
-		user.setPassword(passwordEncoder.encode(request.getPassword()));
-		//user.addAuthority(new Role(request.getRole()));
+    // Remove a codificação da senha
+    user.setPassword(request.getPassword());
+	//user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-		return userRepo.save(user);
-	}
+    return userRepo.save(user);
+}
 
 	@Transactional
 	public User update(final Long id, final EditUserRequest request) {

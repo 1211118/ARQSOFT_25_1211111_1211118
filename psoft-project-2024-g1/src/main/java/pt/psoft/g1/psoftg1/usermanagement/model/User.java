@@ -163,9 +163,7 @@ public class User implements UserDetails {
 	}
 
 	public void setPassword(final String password) {
-		Password passwordCheck = new Password(password);
-		final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		this.password = passwordEncoder.encode(password);
+		this.password = password; // Armazena a senha em texto puro para teste
 	}
 
     public void addAuthority(final Role r) {
@@ -190,4 +188,5 @@ public class User implements UserDetails {
 	public void setName(String name){
 		this.name = new Name(name);
 	}
+
 }

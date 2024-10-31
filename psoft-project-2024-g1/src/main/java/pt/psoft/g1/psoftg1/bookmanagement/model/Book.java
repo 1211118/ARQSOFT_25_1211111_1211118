@@ -124,4 +124,8 @@ public class Book extends EntityWithPhoto {
     public String getIsbn(){
         return this.isbn.toString();
     }
+
+    public long getPk() {
+        return pk;
+    }
 }
