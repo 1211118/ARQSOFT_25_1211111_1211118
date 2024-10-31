@@ -13,6 +13,7 @@ import pt.psoft.g1.psoftg1.lendingmanagement.repositories.FineRepository;
 import pt.psoft.g1.psoftg1.lendingmanagement.repositories.LendingRepository;
 import pt.psoft.g1.psoftg1.readermanagement.repositories.ReaderRepository;
 import pt.psoft.g1.psoftg1.shared.services.Page;
+import pt.psoft.g1.psoftg1.shared.factories.IdFactory;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -28,6 +29,8 @@ public class LendingServiceImpl implements LendingService{
     private final FineRepository fineRepository;
     private final BookRepository bookRepository;
     private final ReaderRepository readerRepository;
+    private final IdFactory idFactory; // Injeção da Factory
+
 
     @Value("${lendingDurationInDays}")
     private int lendingDurationInDays;
@@ -54,7 +57,7 @@ public class LendingServiceImpl implements LendingService{
         }
         return lendings;
     }
-
+    /* 
     @Override
     public Lending create(final CreateLendingRequest resource) {
         int count = 0;
@@ -81,6 +84,36 @@ public class LendingServiceImpl implements LendingService{
 
         return lendingRepository.save(l);
     }
+
+    */
+
+    @Override
+    public Lending create(final CreateLendingRequest resource) {
+        int count = 0;
+
+        Iterable<Lending> lendingList = lendingRepository.listOutstandingByReaderNumber(resource.getReaderNumber());
+        for (Lending lending : lendingList) {
+            if (lending.getDaysDelayed() > 0) {
+                throw new LendingForbiddenException("Reader has book(s) past their due date");
+            }
+            count++;
+            if (count >= 3) {
+                throw new LendingForbiddenException("Reader has three books outstanding already");
+            }
+        }
+
+        final var b = bookRepository.findByIsbn(resource.getIsbn())
+                .orElseThrow(() -> new NotFoundException("Book not found"));
+        final var r = readerRepository.findByReaderNumber(resource.getReaderNumber())
+                .orElseThrow(() -> new NotFoundException("Reader not found"));
+        int seq = lendingRepository.getCountFromCurrentYear() + 1;
+        
+        // Usar a fábrica para criar o Lending com ID gerado
+        final Lending l = idFactory.createLending(b, r, seq, lendingDurationInDays, fineValuePerDayInCents);
+
+        return lendingRepository.save(l);
+    }
+
 
     @Override
     public Lending setReturned(final String lendingNumber, final SetLendingReturnedRequest resource, final long desiredVersion) {

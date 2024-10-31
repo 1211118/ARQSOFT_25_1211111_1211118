@@ -117,6 +117,8 @@ public class Lending {
     @Getter
     private int fineValuePerDayInCents;
 
+    private String lendingId;
+
 
     /**
      * Constructs a new {@code Lending} object to be persisted in the database.
@@ -141,6 +143,23 @@ public class Lending {
         this.limitDate = LocalDate.now().plusDays(lendingDuration);
         this.returnedDate = null;
         this.fineValuePerDayInCents = fineValuePerDayInCents;
+        setDaysUntilReturn();
+        setDaysOverdue();
+    }
+
+    public Lending(Book book, ReaderDetails readerDetails, int seq, int lendingDuration, int fineValuePerDayInCents, String lendingId) {
+        try {
+            this.book = Objects.requireNonNull(book);
+            this.readerDetails = Objects.requireNonNull(readerDetails);
+        }catch (NullPointerException e){
+            throw new IllegalArgumentException("Null objects passed to lending");
+        }
+        this.lendingNumber = new LendingNumber(seq);
+        this.startDate = LocalDate.now();
+        this.limitDate = LocalDate.now().plusDays(lendingDuration);
+        this.returnedDate = null;
+        this.fineValuePerDayInCents = fineValuePerDayInCents;
+        this.lendingId = lendingId;  // ID gerado pela fábrica
         setDaysUntilReturn();
         setDaysOverdue();
     }
