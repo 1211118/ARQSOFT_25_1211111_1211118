@@ -9,8 +9,8 @@ import pt.psoft.g1.psoftg1.bookmanagement.services.BookCountDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-10-30T23:14:54+0000",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.40.0.v20240919-1711, environment: Java 17.0.12 (Eclipse Adoptium)"
+    date = "2024-10-27T14:27:42+0000",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (BellSoft)"
 )
 @Component
 public class BookViewMapperImpl extends BookViewMapper {

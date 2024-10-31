@@ -6,8 +6,8 @@ import pt.psoft.g1.psoftg1.authormanagement.model.Author;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-10-30T23:14:54+0000",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.40.0.v20240919-1711, environment: Java 17.0.12 (Eclipse Adoptium)"
+    date = "2024-10-27T14:27:42+0000",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (BellSoft)"
 )
 @Component
 public class AuthorMapperImpl extends AuthorMapper {
@@ -18,15 +18,17 @@ public class AuthorMapperImpl extends AuthorMapper {
             return null;
         }
 
-        String photo = null;
         String name = null;
         String bio = null;
+        String photoURI = null;
 
-        photo = map( request.getPhotoURI() );
         name = map( request.getName() );
         bio = map( request.getBio() );
+        photoURI = map( request.getPhotoURI() );
 
-        Author author = new Author( name, bio, photo );
+        Author author = new Author( name, bio, photoURI );
+
+        author.setPhoto( map( request.getPhotoURI() ) );
 
         return author;
     }
