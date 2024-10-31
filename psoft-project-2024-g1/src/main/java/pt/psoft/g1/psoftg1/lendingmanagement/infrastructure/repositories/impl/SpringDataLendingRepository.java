@@ -11,7 +11,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import pt.psoft.g1.psoftg1.bookmanagement.model.Book;
-import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
 import pt.psoft.g1.psoftg1.lendingmanagement.model.Lending;
 import pt.psoft.g1.psoftg1.lendingmanagement.repositories.LendingRepository;
 import pt.psoft.g1.psoftg1.shared.services.Page;
@@ -187,11 +186,5 @@ public Lending save(Lending lending) {
     @Override
     public void delete(Lending lending) {
         em.remove(em.contains(lending) ? lending : em.merge(lending));
-    }
-
-    @Override
-    public Optional<Genre> findByReaderDetails(ReaderDetails reader) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByReaderDetails'");
     }
 }

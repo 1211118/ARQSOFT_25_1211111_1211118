@@ -8,13 +8,10 @@ import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-
-import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
 import pt.psoft.g1.psoftg1.lendingmanagement.model.Lending;
 import pt.psoft.g1.psoftg1.lendingmanagement.model.MongoLending;
 import pt.psoft.g1.psoftg1.lendingmanagement.repositories.LendingRepository;
 import pt.psoft.g1.psoftg1.lendingmanagement.services.LendingConverter;
-import pt.psoft.g1.psoftg1.readermanagement.model.ReaderDetails;
 import pt.psoft.g1.psoftg1.shared.services.Page;
 
 import java.time.LocalDate;
@@ -142,11 +139,5 @@ public Lending save(Lending lending) {
     public void delete(Lending lending) {
         MongoLending mongoLending = lendingConverter.toMongoLending(lending);
         mongoTemplate.remove(mongoLending);
-    }
-
-    @Override
-    public Optional<Genre> findByReaderDetails(ReaderDetails reader) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByReaderDetails'");
     }
 }

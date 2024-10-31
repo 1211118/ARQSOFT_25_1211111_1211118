@@ -169,6 +169,6 @@ public class ReaderDetails extends EntityWithPhoto {
     }
 
     public Long getPk() {
-        return this.pk;  // Assuming 'pk' is the field you want to return
+        return pk;
     }
 }
