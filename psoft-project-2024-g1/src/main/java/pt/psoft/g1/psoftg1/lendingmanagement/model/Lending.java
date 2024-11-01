@@ -117,6 +117,8 @@ public class Lending {
     @Getter
     private int fineValuePerDayInCents;
 
+    private String lendingId;
+
 
     /**
      * Constructs a new {@code Lending} object to be persisted in the database.
@@ -141,6 +143,23 @@ public class Lending {
         this.limitDate = LocalDate.now().plusDays(lendingDuration);
         this.returnedDate = null;
         this.fineValuePerDayInCents = fineValuePerDayInCents;
+        setDaysUntilReturn();
+        setDaysOverdue();
+    }
+
+    public Lending(Book book, ReaderDetails readerDetails, int seq, int lendingDuration, int fineValuePerDayInCents, String lendingId) {
+        try {
+            this.book = Objects.requireNonNull(book);
+            this.readerDetails = Objects.requireNonNull(readerDetails);
+        }catch (NullPointerException e){
+            throw new IllegalArgumentException("Null objects passed to lending");
+        }
+        this.lendingNumber = new LendingNumber(seq);
+        this.startDate = LocalDate.now();
+        this.limitDate = LocalDate.now().plusDays(lendingDuration);
+        this.returnedDate = null;
+        this.fineValuePerDayInCents = fineValuePerDayInCents;
+        this.lendingId = lendingId;  // ID gerado pela fábrica
         setDaysUntilReturn();
         setDaysOverdue();
     }
@@ -242,6 +261,7 @@ public class Lending {
                                     LocalDate returnedDate,
                                     int lendingDuration,
                                     int fineValuePerDayInCents){
+
         Lending lending = new Lending();
 
         try {
@@ -258,4 +278,24 @@ public class Lending {
         return lending;
 
     }
+
+    public static Lending newBootstrappingLending(Book book, ReaderDetails readerDetails, int year, int seq, LocalDate startDate, LocalDate returnedDate, int lendingDuration, int fineValuePerDayInCents, String lendingId) {
+
+        Lending lending = new Lending();
+
+        try {
+            lending.book = Objects.requireNonNull(book);
+            lending.readerDetails = Objects.requireNonNull(readerDetails);
+        }catch (NullPointerException e){
+            throw new IllegalArgumentException("Null objects passed to lending");
+        }
+        lending.lendingNumber = new LendingNumber(year, seq);
+        lending.startDate = startDate;
+        lending.limitDate = startDate.plusDays(lendingDuration);
+        lending.fineValuePerDayInCents = fineValuePerDayInCents;
+        lending.returnedDate = returnedDate;
+        lending.lendingId = lendingId;  // atribui o lendingId gerado pela factory
+        return lending;
+    }
+
 }

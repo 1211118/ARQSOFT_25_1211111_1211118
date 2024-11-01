@@ -1,11 +1,13 @@
 package pt.psoft.g1.psoftg1.authormanagement.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pt.psoft.g1.psoftg1.authormanagement.api.AuthorLendingView;
+import pt.psoft.g1.psoftg1.authormanagement.factory.AuthorFactory;
 import pt.psoft.g1.psoftg1.authormanagement.model.Author;
 import pt.psoft.g1.psoftg1.authormanagement.repositories.AuthorRepository;
 import pt.psoft.g1.psoftg1.bookmanagement.model.Book;
@@ -24,6 +26,10 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorMapper mapper;
     private final PhotoRepository photoRepository;
 
+    @Autowired
+    private AuthorFactory authorFactory;
+
+
     @Override
     public Iterable<Author> findAll() {
         return authorRepository.findAll();
@@ -39,29 +45,27 @@ public class AuthorServiceImpl implements AuthorService {
         return authorRepository.searchByNameNameStartsWith(name);
     }
 
+
     @Override
     public Author create(final CreateAuthorRequest resource) {
-        /*
-         * Since photos can be null (no photo uploaded) that means the URI can be null as well.
-         * To avoid the client sending false data, photoURI has to be set to any value / null
-         * according to the MultipartFile photo object
-         *
-         * That means:
-         * - photo = null && photoURI = null -> photo is removed
-         * - photo = null && photoURI = validString -> ignored
-         * - photo = validFile && photoURI = null -> ignored
-         * - photo = validFile && photoURI = validString -> photo is set
-         * */
-
+        // Validação e ajuste do URI da foto, como você já fez
         MultipartFile photo = resource.getPhoto();
         String photoURI = resource.getPhotoURI();
         if(photo == null && photoURI != null || photo != null && photoURI == null) {
             resource.setPhoto(null);
             resource.setPhotoURI(null);
         }
-        final Author author = mapper.create(resource);
+
+        // Usar a fábrica para criar o Author com o ID gerado
+        Author author = authorFactory.createAuthor(
+                resource.getName(),
+                resource.getBio(),
+                resource.getPhotoURI()
+        );
+
         return authorRepository.save(author);
     }
+
 
     @Override
     public Author partialUpdate(final Long authorNumber, final UpdateAuthorRequest request, final long desiredVersion) {
