@@ -261,6 +261,7 @@ public class Lending {
                                     LocalDate returnedDate,
                                     int lendingDuration,
                                     int fineValuePerDayInCents){
+
         Lending lending = new Lending();
 
         try {
@@ -277,4 +278,24 @@ public class Lending {
         return lending;
 
     }
+
+    public static Lending newBootstrappingLending(Book book, ReaderDetails readerDetails, int year, int seq, LocalDate startDate, LocalDate returnedDate, int lendingDuration, int fineValuePerDayInCents, String lendingId) {
+
+        Lending lending = new Lending();
+
+        try {
+            lending.book = Objects.requireNonNull(book);
+            lending.readerDetails = Objects.requireNonNull(readerDetails);
+        }catch (NullPointerException e){
+            throw new IllegalArgumentException("Null objects passed to lending");
+        }
+        lending.lendingNumber = new LendingNumber(year, seq);
+        lending.startDate = startDate;
+        lending.limitDate = startDate.plusDays(lendingDuration);
+        lending.fineValuePerDayInCents = fineValuePerDayInCents;
+        lending.returnedDate = returnedDate;
+        lending.lendingId = lendingId;  // atribui o lendingId gerado pela factory
+        return lending;
+    }
+
 }

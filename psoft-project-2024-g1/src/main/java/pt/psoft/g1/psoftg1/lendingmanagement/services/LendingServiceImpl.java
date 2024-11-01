@@ -13,7 +13,7 @@ import pt.psoft.g1.psoftg1.lendingmanagement.repositories.FineRepository;
 import pt.psoft.g1.psoftg1.lendingmanagement.repositories.LendingRepository;
 import pt.psoft.g1.psoftg1.readermanagement.repositories.ReaderRepository;
 import pt.psoft.g1.psoftg1.shared.services.Page;
-import pt.psoft.g1.psoftg1.shared.factories.IdFactory;
+import pt.psoft.g1.psoftg1.lendingmanagement.factory.LendingFactory;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -29,7 +29,7 @@ public class LendingServiceImpl implements LendingService{
     private final FineRepository fineRepository;
     private final BookRepository bookRepository;
     private final ReaderRepository readerRepository;
-    private final IdFactory idFactory; // Injeção da Factory
+    private final LendingFactory lendingFactory; // Injeção da Factory
 
 
     @Value("${lendingDurationInDays}")
@@ -109,7 +109,7 @@ public class LendingServiceImpl implements LendingService{
         int seq = lendingRepository.getCountFromCurrentYear() + 1;
         
         // Usar a fábrica para criar o Lending com ID gerado
-        final Lending l = idFactory.createLending(b, r, seq, lendingDurationInDays, fineValuePerDayInCents);
+        final Lending l = lendingFactory.createLending(b, r, seq, lendingDurationInDays, fineValuePerDayInCents);
 
         return lendingRepository.save(l);
     }

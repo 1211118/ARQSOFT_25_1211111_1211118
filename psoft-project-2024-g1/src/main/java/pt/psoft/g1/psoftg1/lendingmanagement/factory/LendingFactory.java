@@ -1,4 +1,4 @@
-package pt.psoft.g1.psoftg1.shared.factories;
+package pt.psoft.g1.psoftg1.lendingmanagement.factory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -6,14 +6,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import pt.psoft.g1.psoftg1.lendingmanagement.model.Lending;
 import pt.psoft.g1.psoftg1.readermanagement.model.ReaderDetails;
-import pt.psoft.g1.psoftg1.authormanagement.model.Author;
 import pt.psoft.g1.psoftg1.bookmanagement.model.Book;
 import pt.psoft.g1.psoftg1.idmanagement.IdGenerator;
 
 import java.time.LocalDate;
 
 @Component
-public class IdFactory {
+public class LendingFactory {
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -28,10 +27,18 @@ public class IdFactory {
         IdGenerator idGenerator = applicationContext.getBean(selectedIdGenerator, IdGenerator.class);
         return new Lending(book, readerDetails, seq, lendingDuration, fineValuePerDayInCents, idGenerator.generateId());
     }
-    
- 
+
+    public Lending createBootstrappingLending(Book book, ReaderDetails readerDetails, int year, int seq, LocalDate startDate, LocalDate returnedDate, int lendingDuration, int fineValuePerDayInCents) {
+        IdGenerator idGenerator = applicationContext.getBean(selectedIdGenerator, IdGenerator.class);
+        String lendingId = idGenerator.generateId();  // gera o lendingId
+
+        return Lending.newBootstrappingLending(book, readerDetails, year, seq, startDate, returnedDate, lendingDuration, fineValuePerDayInCents, lendingId);
+    }
 
 
-    
+
+
+
+
 }
 
