@@ -25,6 +25,8 @@ public class Author extends EntityWithPhoto {
     @Embedded
     private Bio bio;
 
+    private String authorId;
+
     public void setName(String name) {
         this.name = new Name(name);
     }
@@ -47,7 +49,16 @@ public class Author extends EntityWithPhoto {
         setPhotoInternal(photoURI);
     }
 
-    protected Author() {
+    public Author(String name, String bio, String photoURI, String authorId) {
+        setName(name);
+        setBio(bio);
+        setPhotoInternal(photoURI);
+        this.authorId = authorId;
+    }
+
+    // got ORM only
+
+    public Author() {
         // got ORM only
     }
 
