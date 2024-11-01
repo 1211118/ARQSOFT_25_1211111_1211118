@@ -25,7 +25,8 @@ public class LendingFactory {
      */
     public Lending createLending(Book book, ReaderDetails readerDetails, int seq, int lendingDuration, int fineValuePerDayInCents) {
         IdGenerator idGenerator = applicationContext.getBean(selectedIdGenerator, IdGenerator.class);
-        return new Lending(book, readerDetails, seq, lendingDuration, fineValuePerDayInCents, idGenerator.generateId());
+        String lendingId = idGenerator.generateId();  // gera o lendingId
+        return new Lending(book, readerDetails, seq, lendingDuration, fineValuePerDayInCents, lendingId);
     }
 
     public Lending createBootstrappingLending(Book book, ReaderDetails readerDetails, int year, int seq, LocalDate startDate, LocalDate returnedDate, int lendingDuration, int fineValuePerDayInCents) {
