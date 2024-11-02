@@ -1,8 +1,5 @@
 # Documentação do Projeto ARQSOFT 25
 
-## GitHub
-Projeto Github: [ARQSOFT_25_1211111_1211118](https://github.com/1211118/ARQSOFT_25_1211111_1211118)
-
 ---
 
 ## Vistas Nível 1
@@ -62,7 +59,7 @@ Projeto Github: [ARQSOFT_25_1211111_1211118](https://github.com/1211118/ARQSOFT_
 
 ---
 
-## Tabela de Fatores Arquiteturais
+## Table of Architectural Factors
 - [Tabela Fatores Arquiteturais](../Documents/TAF/Tabela_Fatores_Arquiteturais.md)
 
 ---

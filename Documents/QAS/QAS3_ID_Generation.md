@@ -1,4 +1,4 @@
-# Cenário de Atributo de Qualidade 3 - Configurabilidade na Geração de IDs
+# Quality Attribute Scenario 3 - Configurabilidade na Geração de IDs
 
 | **Elemento**  | **Declaração** |
 |--------------|---------------|

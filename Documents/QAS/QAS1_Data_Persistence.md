@@ -1,4 +1,4 @@
-# Cenário de Atributo de Qualidade 1 - Escalabilidade na Persistência de Dados
+# Quality Attribute Scenario 1 - Escalabilidade na Persistência de Dados
 
 | **Elemento**  | **Declaração** |
 |--------------|---------------|

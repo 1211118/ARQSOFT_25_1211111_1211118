@@ -1,4 +1,4 @@
-# Tabela de Fatores Arquiteturais
+# Table of Architectural Factors 
 
 <table>
   <tr>

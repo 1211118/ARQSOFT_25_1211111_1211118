@@ -1,4 +1,4 @@
-# Cenário de Atributo de Qualidade 4 - Flexibilidade na Recomendação de Empréstimos
+# Quality Attribute Scenario 4 - Flexibilidade na Recomendação de Empréstimos
 
 | **Elemento**  | **Declaração** |
 |--------------|---------------|

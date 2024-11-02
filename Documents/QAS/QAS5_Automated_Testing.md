@@ -1,4 +1,4 @@
-# Cenário de Atributo de Qualidade 5 - Desempenho de Testes Automatizados
+# Quality Attribute Scenario 5 - Desempenho de Testes Automatizados
 
 | **Elemento**  | **Declaração** |
 |--------------|---------------|

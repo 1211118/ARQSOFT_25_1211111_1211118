@@ -1,4 +1,4 @@
-# Cenário de Atributo de Qualidade 2 - Adaptabilidade de Provedores IAM
+# Quality Attribute Scenario 2 - Adaptabilidade de Provedores IAM
 
 | **Elemento**  | **Declaração** |
 |--------------|---------------|
