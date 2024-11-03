@@ -1,9 +1,8 @@
 package pt.psoft.g1.psoftg1.authormanagement.model;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
 
 public class BioTest {
 
@@ -53,5 +52,67 @@ public class BioTest {
         final var bio = new Bio("Some bio");
         bio.setBio("Some other bio");
         assertEquals("Some other bio", bio.toString());
+    }
+
+    @Test
+    void ensureBioWithMaxLengthIsAccepted() {
+        // Teste para garantir que uma Bio com exatamente 4096 caracteres é aceita
+        StringBuilder maxLengthBio = new StringBuilder();
+        for (int i = 0; i < 4096; i++) {
+            maxLengthBio.append("a");
+        }
+        Bio bio = new Bio(maxLengthBio.toString());
+        assertNotNull(bio);
+        assertEquals(maxLengthBio.toString(), bio.toString());
+    }
+
+    @Test
+    void ensureBioIsSanitized() {
+        // Teste para garantir que HTML perigoso é removido
+        String bioContent = "<script>alert('attack')</script> Clean content";
+        Bio bio = new Bio(bioContent);
+        // Pressupondo que StringUtilsCustom.sanitizeHtml remove a tag <script>
+        assertEquals(" Clean content", bio.toString(), "Bio content should be sanitized from dangerous HTML.");
+    }
+
+    @Test
+    void ensureValidBioIsSet() {
+        // Teste para garantir que uma Bio válida é configurada corretamente
+        String validBioContent = "This is a valid bio content.";
+        Bio bio = new Bio(validBioContent);
+        assertEquals(validBioContent, bio.toString(), "Bio content should match the input content.");
+    }
+
+    @Test
+    void ensureBioCanBeUpdatedWithValidContent() {
+        // Teste para garantir que é possível atualizar a Bio com um conteúdo válido
+        Bio bio = new Bio("Initial bio content.");
+        bio.setBio("Updated bio content.");
+        assertEquals("Updated bio content.", bio.toString(), "Bio content should be updated correctly.");
+    }
+
+    @Test
+    void ensureUpdatingBioToNullThrowsException() {
+        // Teste para garantir que atualizar a Bio para nulo gera uma exceção
+        Bio bio = new Bio("Initial bio content.");
+        assertThrows(IllegalArgumentException.class, () -> bio.setBio(null), "Bio cannot be null");
+    }
+
+    @Test
+    void ensureUpdatingBioToBlankThrowsException() {
+        // Teste para garantir que atualizar a Bio para uma string em branco gera uma exceção
+        Bio bio = new Bio("Initial bio content.");
+        assertThrows(IllegalArgumentException.class, () -> bio.setBio(" "), "Bio cannot be blank");
+    }
+
+    @Test
+    void ensureUpdatingBioWithExceedingLengthThrowsException() {
+        // Teste para garantir que uma atualização da Bio com mais de 4096 caracteres gera uma exceção
+        Bio bio = new Bio("Initial bio content.");
+        StringBuilder exceedingBioContent = new StringBuilder();
+        for (int i = 0; i <= 4096; i++) {
+            exceedingBioContent.append("a");
+        }
+        assertThrows(IllegalArgumentException.class, () -> bio.setBio(exceedingBioContent.toString()), "Bio has a maximum of 4096 characters");
     }
 }

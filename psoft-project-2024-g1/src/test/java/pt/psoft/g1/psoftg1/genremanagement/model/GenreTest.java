@@ -1,9 +1,17 @@
 package pt.psoft.g1.psoftg1.genremanagement.model;
 
 import org.junit.jupiter.api.Test;
-import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
+
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 
 class GenreTest {
 
@@ -48,4 +56,112 @@ class GenreTest {
         assertEquals("Some genre", genre.toString());
     }
 
+
+    @Test
+    void ensureGenreBoundaryCondition() {
+        String boundaryGenre = "a".repeat(100); // Exatamente o limite
+        Genre genre = new Genre(boundaryGenre);
+        assertEquals(boundaryGenre, genre.toString());
+    }
+
+    @Test
+    void ensureGenreWithSpecialCharacters() {
+        final var genre = new Genre("Sci-Fi & Fantasy");
+        assertEquals("Sci-Fi & Fantasy", genre.toString());
+    }
+
+    @Test
+    void ensureGenreWithNumbers() {
+        final var genre = new Genre("Top 100 Hits");
+        assertEquals("Top 100 Hits", genre.toString());
+    }
+
+    @Test
+    void ensureGenreWithSingleCharacter() {
+        final var genre = new Genre("A");
+        assertEquals("A", genre.toString());
+    }
+
+
+    @Test
+    void ensureGenreMaxLengthConstantWorksProperly() {
+        Genre genre = new Genre("a".repeat(100));
+        assertEquals(100, genre.toString().length(), "GENRE_MAX_LENGTH should be enforced");
+    }
+
+    //Unit Transparent-box tests
+
+    private Genre genre;
+
+    @BeforeEach
+    void setUp() {
+        genre = new Genre("Initial Genre");
+    }
+
+    @Test
+    void testGenreMaxLengthConstant() throws NoSuchFieldException, IllegalAccessException {
+        Field maxLengthField = Genre.class.getDeclaredField("GENRE_MAX_LENGTH");
+        maxLengthField.setAccessible(true);
+        int maxLength = maxLengthField.getInt(genre);
+        assertEquals(100, maxLength, "GENRE_MAX_LENGTH should be 100");
+    }
+
+    @Test
+    void testSetGenreDirectlyWithValidInput() throws Exception {
+        Method setGenreMethod = Genre.class.getDeclaredMethod("setGenre", String.class);
+        setGenreMethod.setAccessible(true);
+
+        setGenreMethod.invoke(genre, "Valid Genre");
+
+        Field genreField = Genre.class.getDeclaredField("genre");
+        genreField.setAccessible(true);
+        String genreValue = (String) genreField.get(genre);
+
+        assertEquals("Valid Genre", genreValue, "The genre field should be set to 'Valid Genre'");
+    }
+
+    @Test
+    void testSetGenreDirectlyWithNull() throws Exception {
+        Method setGenreMethod = Genre.class.getDeclaredMethod("setGenre", String.class);
+        setGenreMethod.setAccessible(true);
+
+        Exception exception = assertThrows(InvocationTargetException.class, () -> setGenreMethod.invoke(genre, (String) null));
+        assertEquals("Genre cannot be null", exception.getCause().getMessage());
+    }
+
+    @Test
+    void testSetGenreDirectlyWithEmptyString() throws Exception {
+        Method setGenreMethod = Genre.class.getDeclaredMethod("setGenre", String.class);
+        setGenreMethod.setAccessible(true);
+
+        Exception exception = assertThrows(InvocationTargetException.class, () -> setGenreMethod.invoke(genre, ""));
+        assertEquals("Genre cannot be blank", exception.getCause().getMessage());
+    }
+
+    @Test
+    void testSetGenreDirectlyWithOversizeString() throws Exception {
+        Method setGenreMethod = Genre.class.getDeclaredMethod("setGenre", String.class);
+        setGenreMethod.setAccessible(true);
+
+        String oversizedGenre = "a".repeat(101);
+        Exception exception = assertThrows(InvocationTargetException.class, () -> setGenreMethod.invoke(genre, oversizedGenre));
+        assertEquals("Genre has a maximum of 4096 characters", exception.getCause().getMessage());
+    }
+
+    @Test
+    void testConstructorCallsSetGenre() throws Exception {
+        genre = new Genre("Constructor Genre");
+
+        Field genreField = Genre.class.getDeclaredField("genre");
+        genreField.setAccessible(true);
+        String genreValue = (String) genreField.get(genre);
+        
+        assertEquals("Constructor Genre", genreValue, "Constructor should call setGenre and set the genre field");
+    }
+
+    @Test
+    void testToStringMethod() {
+        genre = new Genre("Test Genre");
+        assertEquals("Test Genre", genre.toString(), "toString should return the genre's value");
+    }
 }
