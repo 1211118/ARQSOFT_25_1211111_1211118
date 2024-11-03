@@ -22,6 +22,8 @@
 
 		<!-- automatically run annotation processors within the incremental compilation -->
 		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
+		<pitest-maven>1.7.4</pitest-maven>
+		<pitest-junit5-plugin>0.15</pitest-junit5-plugin>
 	</properties>
 
 	<dependencies>
@@ -149,6 +151,33 @@
 							<version>0.2.0</version>
 						</path>
 					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+				<version>${pitest-maven}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.pitest</groupId>
+						<artifactId>pitest-junit5-plugin</artifactId>
+						<version>${pitest-junit5-plugin}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+
+					<outputFormats>
+						<outputFormat>XML</outputFormat>
+						<outputFormat>HTML</outputFormat>
+					</outputFormats>
+
+					<targetClasses>
+						<param>pt.psoft.g1.*.model.*</param>
+					</targetClasses>
+					<targetTests>
+						<param>pt.psoft.g1.*.model.*Test</param>
+					</targetTests>
 				</configuration>
 			</plugin>
 		</plugins>
