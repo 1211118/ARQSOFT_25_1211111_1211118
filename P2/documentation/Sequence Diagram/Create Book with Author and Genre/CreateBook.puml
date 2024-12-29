@@ -1,0 +1,58 @@
+@startuml
+title As a librarian, I want to create a Book, Author and Genre in the same process
+
+participant "Client" as client
+participant "Book Service" as book
+participant "Author Service" as author
+participant "Genre Service" as genre
+participant "Message Broker" as mb
+
+== Service Initialization ==
+
+book -> mb: Subscribe to , "book.created"
+activate mb
+author -> mb: Subscribe to "BookWithAuthorAndGenre.created" 
+author -> mb: Subscribe to "author.created"
+genre -> mb: Subscribe BookWithAuthorAndGenre.created" 
+genre -> mb: Subscribe to "genre.created"
+
+
+== Creation Flow ==
+
+
+
+client -> book: Create book (POST with author and genre data)
+activate book
+
+book -> mb: publishBookWithAuthorAndGenre.created" 
+
+book --> client: 202 Accepted
+
+mb -> author: notifyBookWithAuthorAndGenre.created"
+activate author
+author -> author: Create authorp
+author -> mb: publish "author.created"
+mb -> author : notify "author.created"
+deactivate author
+
+mb -> book : notify "author.created"
+
+mb -> genre: notifyBookWithAuthorAndGenre.created"
+activate genre
+genre -> genre: Create genre
+genre -> mb: publish "genre.created"
+mb -> genre: notify "genre.created"
+deactivate genre
+
+
+mb -> book: notify "genre.created"
+
+book -> book: Create book
+book -> mb: publish "book.created"
+mb -> book : notify "book.created"
+
+deactivate mb
+
+@enduml 
+
+@enduml

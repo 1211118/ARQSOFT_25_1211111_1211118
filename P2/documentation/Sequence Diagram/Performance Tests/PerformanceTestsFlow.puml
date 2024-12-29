@@ -1,0 +1,40 @@
+@startuml
+title JMeter Performance Test Flow
+
+participant "JMeter" as jmeter
+participant "Books Instance 1" as b1
+participant "Books Instance 2" as b2
+participant "Message Broker" as mb
+
+== Test Initialization ==
+jmeter -> b1: POST /books (Create new book)
+activate b1
+b1 -> b1: Create book in local database
+b1 -> mb: Publish "book.created"
+b1 --> jmeter: 201 Created
+deactivate b1
+
+mb -> b2: Notify "book.created"
+activate b2
+b2 -> b2: Sync book to local database
+deactivate b2
+
+== Performance Testing (GET Requests) ==
+jmeter -> b1: GET /books/{id}
+activate b1
+b1 --> jmeter: 200 OK (Book details)
+deactivate b1
+
+jmeter -> b2: GET /books/{id}
+activate b2
+b2 --> jmeter: 200 OK (Book details)
+deactivate b2
+
+== Repeat as Needed ==
+note left of jmeter
+  JMeter performs multiple
+  POSTs and GETs to measure
+  performance across instances.
+end note
+
+@enduml

@@ -1,0 +1,42 @@
+@startuml
+title As a reader, I want to suggest the acquisition of a new Book.
+
+participant "Client" as client
+participant "Suggestion Service" as suggestion
+participant "Librarian Service" as librarian
+participant "Book Service" as book
+participant "Message Broker" as mb
+
+== Service Initialization ==
+suggestion -> mb: Subscribe to "book.acquisitionSuggested"
+librarian -> mb: Subscribe to "book.acquisitionSuggested"
+book -> mb: Subscribe to "book.accepted"
+book -> mb: Subscribe to "book.created"
+
+== Suggestion Flow ==
+client -> suggestion: Suggest acquisition of a new book (POST with book details)
+activate suggestion
+
+suggestion -> suggestion: Validate suggestion
+suggestion -> mb: Publish "book.acquisitionSuggested"
+suggestion --> client: 202 Accepted
+deactivate suggestion
+
+mb -> librarian: Notify "book.acquisitionSuggested"
+activate librarian
+librarian -> librarian: Log and analyze suggestion
+
+alt Suggestion Accepted
+    librarian -> mb: Publish "book.accepted"
+    mb -> book: Notify "book.accepted"
+    activate book
+    book -> book: Create SuggestBook
+    book -> mb: Publish "book.created"
+    mb -> librarian: Notify "book.created"
+    deactivate book
+else Suggestion Rejected
+    librarian -> librarian: Log rejection
+end
+deactivate librarian
+
+@enduml

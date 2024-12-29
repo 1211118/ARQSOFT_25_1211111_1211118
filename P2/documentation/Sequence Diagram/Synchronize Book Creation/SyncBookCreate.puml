@@ -1,0 +1,33 @@
+@startuml
+title Book Creation Synchronization Between Service Instances
+
+participant "Books Instance 1" as b1
+participant "Books Instance 2" as b2
+participant "Message Broker" as mb
+
+== Service Initialization ==
+b1 -> mb: Subscribe to "book.created"
+
+b2 -> mb: Subscribe to "book.created"
+
+== Book Creation Flow ==
+[-> b1: Create new book (POST)
+activate b1
+
+b1 -> b1: Create book 
+b1 -> mb: Publish "book.created"
+[<-- b1: 201 Created
+deactivate b1
+
+mb -> b2: Notify "book.created"
+activate b2
+b2 -> b2: Sync book 
+deactivate b2
+
+mb -> b1: Notify "book.created"
+note right of b1
+  Instance 1 ignores the event
+  since it originated the creation.
+end note
+
+@enduml

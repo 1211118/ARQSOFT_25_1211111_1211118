@@ -1,0 +1,51 @@
+@startuml
+title As a reader, upon returning a Book, I want to recommend it (positively or negatively). 
+
+participant "Lendings" as l
+participant "Recommendations" as r
+participant "Message Broker" as mb
+
+== Service Initialization ==
+
+
+
+l -> mb: Subscribe to "lending.returned"
+activate mb
+l -> mb: Subscribe to "recommendation.created"
+
+r -> mb: Subscribe to "lending.returned"
+r -> mb: Subscribe to "lendingFinal.returned"
+r -> mb: Subscribe to "recommendation.created"
+
+== Creation Flow ==
+
+[-> l : Client return a lending (POST)
+activate l
+
+l -> l : update (temporary)
+l -> mb : publish "lending.returned"
+[<-- l  : 202 Accepted 
+
+mb -> r : notify "lending.returned"
+activate r
+r -> r : create recommendation (temporary)
+r -> mb : publish "recommendation.created"
+
+mb -> l : notify "recommendation.created"
+l -> l : update (final)
+l -> mb : publish "lendingFinal.returned"
+
+
+
+
+mb -> r : notify "lendingFinal.returned"
+r -> r : create recommendation
+
+mb -> l : notify "lending.returned"
+l -> l : already returned
+
+deactivate r
+
+
+
+@enduml
