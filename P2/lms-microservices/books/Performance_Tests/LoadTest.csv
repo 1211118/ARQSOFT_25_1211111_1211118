@@ -1,0 +1,4 @@
+Label,# Samples,Average,Min,Max,Std. Dev.,Error %,Throughput,Received KB/sec,Sent KB/sec,Avg. Bytes
+Get Author,100,3,2,9,"1,30","0,000%","1,75362","1,38","1,79","808,0"
+Get Books,100,3,2,12,"1,11","0,000%","1,75383","2,13","1,77","1245,0"
+TOTAL,200,3,2,12,"1,24","0,000%","3,50711","3,52","3,56","1026,5"

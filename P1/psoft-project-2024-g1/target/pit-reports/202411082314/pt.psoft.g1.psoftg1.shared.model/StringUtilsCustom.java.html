@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>StringUtilsCustom.java</h1>
+
+<table class="src">
+
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package pt.psoft.g1.psoftg1.shared.model;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.owasp.html.PolicyFactory;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.owasp.html.Sanitizers;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import org.springframework.util.StringUtils;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.util.regex.Pattern;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='uncovered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='uncovered'><pre><span  class=''>public class StringUtilsCustom {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @see &#60;a href=&#34;https://owasp.org/www-project-java-html-sanitizer/&#34;&#62;OWASP Java HTML Sanitizer&#60;/a&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    private static final PolicyFactory sanitizer = Sanitizers.FORMATTING.and(Sanitizers.LINKS);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Returns {@code true} if every character is a letter (capitalized or not), or a number, or a white space.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * &#60;p&#62;In this pattern:</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *     &#60;p&#62;- &#39;{@code \\p{L}}&#39; matches any Unicode letter, including letters with diacritics (accents) in various languages.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *     &#60;p&#62;- &#39;{@code 0-9}&#39; matches any digit from 0 to 9.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     *     &#60;p&#62;- &#39;{@code \\s}&#39; matches any whitespace character.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_21'/>
+21
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_21'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * &#60;p&#62;Adapted from &#60;a href=&#34;https://www.baeldung.com/java-check-string-contains-only-letters-numbers&#34;&#62;baeldung.com&#60;/a&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param str string to be compared</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public static boolean isAlphanumeric(String str){</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>        String pattern = &#34;^[\\p{L}0-9\\s&#39;-]*$&#34;;</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_26'/>
+26
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_26'>2</a>
+<span>
+1. isAlphanumeric : replaced boolean return with false for pt/psoft/g1/psoftg1/shared/model/StringUtilsCustom::isAlphanumeric &rarr; KILLED<br/>
+2. isAlphanumeric : replaced boolean return with true for pt/psoft/g1/psoftg1/shared/model/StringUtilsCustom::isAlphanumeric &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return Pattern.matches(pattern, str);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_27'/>
+27
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_27'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public static boolean startsOrEndsInWhiteSpace(String str) {</span></pre></td></tr>
+
+
+<tr>
+<td class='uncovered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_30'/>
+30
+</td>
+<td class='survived'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_30'>3</a>
+<span>
+1. startsOrEndsInWhiteSpace : negated conditional &rarr; NO_COVERAGE<br/>
+2. startsOrEndsInWhiteSpace : negated conditional &rarr; NO_COVERAGE<br/>
+3. startsOrEndsInWhiteSpace : replaced boolean return with true for pt/psoft/g1/psoftg1/shared/model/StringUtilsCustom::startsOrEndsInWhiteSpace &rarr; NO_COVERAGE<br/>
+
+</span>
+</span>
+</td>
+<td class='uncovered'><pre><span  class='survived'>        return !str.startsWith(&#34; &#34;) &#38;&#38; !str.endsWith(&#34; &#34;);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_31'/>
+31
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_31'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_32'/>
+32
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_32'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_33'/>
+33
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_33'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    /**</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_34'/>
+34
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_34'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * Sanitizes the provided HTML content to remove potentially harmful elements and attributes,</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_35'/>
+35
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_35'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * ensuring that only safe HTML is retained.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_36'/>
+36
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_36'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * &#60;p&#62;This method is intended for use in sanitizing user-generated HTML content before persisting</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_37'/>
+37
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_37'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * it in a database or rendering it in a web application. By sanitizing the HTML content, the</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_38'/>
+38
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_38'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * risk of Cross-Site Scripting (XSS) attacks is mitigated, as potentially malicious code or</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_39'/>
+39
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_39'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * scripts are removed from the input.&#60;/p&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_40'/>
+40
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_40'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @param str The HTML content to be sanitized.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_41'/>
+41
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_41'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @return A sanitized version of the HTML content, with potentially harmful elements and attributes removed.</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_42'/>
+42
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_42'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @see &#60;a href=&#34;https://owasp.org/www-project-java-html-sanitizer/&#34;&#62;OWASP Java HTML Sanitizer&#60;/a&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_43'/>
+43
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_43'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     * @see &#60;a href=&#34;https://github.com/OWASP/java-html-sanitizer/&#34;&#62;OWASP Java HTML Sanitizer GitHub&#60;/a&#62;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_44'/>
+44
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_44'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>     */</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_45'/>
+45
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_45'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    public static String sanitizeHtml(String str){</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_46'/>
+46
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_46'>1</a>
+<span>
+1. sanitizeHtml : replaced return value with &#34;&#34; for pt/psoft/g1/psoftg1/shared/model/StringUtilsCustom::sanitizeHtml &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        return sanitizer.sanitize(str);</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_47'/>
+47
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_47'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_48'/>
+48
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_48'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@50caeb4b_49'/>
+49
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_49'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@50caeb4b_26'>26</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_26'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>isAlphanumeric<br/><b>Killed by : </b>pt.psoft.g1.psoftg1.shared.model.NameTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.shared.model.NameTest]/[method:ensureNameIsChanged()]</span></span> replaced boolean return with false for pt/psoft/g1/psoftg1/shared/model/StringUtilsCustom::isAlphanumeric &rarr; KILLED</p> <p class='KILLED'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>isAlphanumeric<br/><b>Killed by : </b>pt.psoft.g1.psoftg1.shared.model.NameTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.shared.model.NameTest]/[method:ensureNameMustNotBeOversize()]</span></span> replaced boolean return with true for pt/psoft/g1/psoftg1/shared/model/StringUtilsCustom::isAlphanumeric &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@50caeb4b_30'>30</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_30'/> 
+
+<p class='NO_COVERAGE'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>startsOrEndsInWhiteSpace<br/><b>Killed by : </b>none</span></span> negated conditional &rarr; NO_COVERAGE</p> <p class='NO_COVERAGE'><span class='pop'>2.<span><b>2</b><br/><b>Location : </b>startsOrEndsInWhiteSpace<br/><b>Killed by : </b>none</span></span> negated conditional &rarr; NO_COVERAGE</p> <p class='NO_COVERAGE'><span class='pop'>3.<span><b>3</b><br/><b>Location : </b>startsOrEndsInWhiteSpace<br/><b>Killed by : </b>none</span></span> replaced boolean return with true for pt/psoft/g1/psoftg1/shared/model/StringUtilsCustom::startsOrEndsInWhiteSpace &rarr; NO_COVERAGE</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@50caeb4b_46'>46</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@50caeb4b_46'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>sanitizeHtml<br/><b>Killed by : </b>pt.psoft.g1.psoftg1.authormanagement.model.BioTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.BioTest]/[method:ensureValidBioIsSet()]</span></span> replaced return value with &#34;&#34; for pt/psoft/g1/psoftg1/shared/model/StringUtilsCustom::sanitizeHtml &rarr; KILLED</p> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NULL_RETURNS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+<li class='mutator'>VOID_METHOD_CALLS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureBookCreationWithWhitespaceIsbnThrowsException()] (4 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureValidIsbnCreatesBook()] (4 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:whenVersionIsStaleItIsNotPossibleToPatch()] (6 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureDescriptionCanBeSet()] (4 ms)</li><li>pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest]/[method:testSetReturned()] (127 ms)</li><li>pt.psoft.g1.psoftg1.shared.model.NameTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.shared.model.NameTest]/[method:ensureNameMustOnlyBeAlphanumeric()] (1 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testCompleteUpdateWithApplyPatch()] (6 ms)</li><li>pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest]/[method:testGetStartDate()] (127 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureBookCreationWithNullAuthorsThrowsException()] (6 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:whenApplyingPatchWithPartialUpdate_thenOnlySpecifiedFieldsAreUpdated()] (7 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:whenApplyingPatchWithNewPhoto_thenPhotoStateIsUpdated()] (5 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:whenSettingName_thenInternalNameObjectIsUpdated()] (7 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureBookCreationWithNullIsbnThrowsException()] (4 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureApplyPatchThrowsExceptionForStaleObject()] (6 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.BioTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.BioTest]/[method:ensureBioIsSanitized()] (6 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.BioTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.BioTest]/[method:ensureUpdatingBioToBlankThrowsException()] (5 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureBookCreationWithWhitespaceTitleThrowsException()] (5 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testPartialUpdateWithApplyPatch()] (6 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testBioSanitization()] (15 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureDescriptionWithExactMaxLengthDoesNotThrowException()] (6 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureUpdateWithValidTitleSucceeds()] (4 ms)</li><li>pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest]/[method:testGetDaysDelayed()] (353 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureInvalidIsbnThrowsExceptionWithAlphaCharacters()] (4 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureNullAuthorsInPatchDoesNotChangeAuthors()] (4 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.BioTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.BioTest]/[method:ensureUpdatingBioToNullThrowsException()] (3 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureAuthorsCannotBeNullOnCreation()] (5 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testAuthorCreationWithValidPhoto()] (6 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureDescriptionWithExactMaxLength()] (5 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testApplyPatchWithIncorrectVersion()] (5 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureAuthorsNotEmpty()] (7 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureValidIsbnCanBeCreated()] (4 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureDescriptionCannotExceedMaxLength()] (5 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureAuthorsCanBeUpdated()] (5 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testRemovePhotoWithCorrectVersion()] (6 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.BioTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.BioTest]/[method:ensureUpdatingBioWithExceedingLengthThrowsException()] (4 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.BioTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.BioTest]/[method:ensureBioWithMaxLengthIsAccepted()] (4 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureEmptyIsbnThrowsException()] (4 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureBookCreationWithEmptyIsbnThrowsException()] (5 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureBookCreatedWithMultipleAuthors()] (5 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureGenreCanBeUpdated()] (4 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureBlankTitleThrowsException()] (6 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureIsbnNotNull()] (4 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.BioTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.BioTest]/[method:ensureBioCanBeUpdatedWithValidContent()] (6 ms)</li><li>pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest]/[method:testGetDaysOverDue()] (271 ms)</li><li>pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest]/[method:testGetLendingNumber()] (126 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureInvalidIsbnThrowsException()] (4 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:whenApplyingPatch_thenVersionIsUpdated()] (6 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureDescriptionCanBeUpdated()] (6 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.DescriptionTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.DescriptionTest]/[method:ensureDescriptionIsSet()] (2 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.DescriptionTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.DescriptionTest]/[method:ensureDescriptionIsChanged()] (3 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureInvalidIsbnFormatThrowsException()] (4 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:whenApplyingMultiplePatches_thenNameAndBioAreUpdatedConsistently()] (6 ms)</li><li>pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest]/[method:testGetBook()] (199 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureTitleCanBeUpdated()] (4 ms)</li><li>pt.psoft.g1.psoftg1.shared.model.NameTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.shared.model.NameTest]/[method:ensureNameMustNotBeOversize()] (1 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testCreateAuthorRequestWithPhoto()] (8 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:ensureBioNotNull()] (15 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureBookCreationWithNullTitleThrowsException()] (5 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testCreateAuthorRequestWithoutPhoto()] (4 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureNullIsbnInPatchDoesNotChangeIsbn()] (5 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:whenRemovingPhoto_thenPhotoIsSetToNull()] (4 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureInvalidIsbnThrowsExceptionOnCreation()] (6 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureUpdatingWithSameAuthorsDoesNotThrowException()] (3 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureNullGenreInPatchDoesNotChangeGenre()] (6 ms)</li><li>pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest]/[method:testGetDaysUntilReturn()] (129 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureUpdatingWithEmptyTitleThrowsException()] (3 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureBookCreationWithNullGenreThrowsException()] (6 ms)</li><li>pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest]/[method:testGetReaderDetails()] (131 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testAuthorCreationWithNullPhoto()] (7 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:ensureValidPhoto()] (6 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testRemovePhotoWithIncorrectVersion()] (8 ms)</li><li>pt.psoft.g1.psoftg1.shared.model.NameTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.shared.model.NameTest]/[method:ensureNameIsChanged()] (1 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:whenCreatingAuthor_thenInternalStateIsConsistent()] (5 ms)</li><li>pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest]/[method:testGetReturnedDate()] (126 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:whenRemovingPhoto_thenVersionRemainsUnchanged()] (4 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureExcessivelyLongTitleThrowsException()] (3 ms)</li><li>pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest]/[method:ensureValidReaderNumber()] (126 ms)</li><li>pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest]/[method:ensureBookNotNull()] (143 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureTitleNotNull()] (6 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureAuthorsNotNull()] (7 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testCreateAuthorWithoutPhoto()] (6 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureBookCreationWithEmptyTitleThrowsException()] (5 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.BioTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.BioTest]/[method:ensureBioIsChanged()] (7 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:ensurePhotoCanBeNull_AkaOptional()] (8 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureToStringReturnsIsbn()] (4 ms)</li><li>pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest]/[method:testGetLimitDate()] (126 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureInvalidIsbnLengthThrowsException()] (4 ms)</li><li>pt.psoft.g1.psoftg1.shared.model.NameTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.shared.model.NameTest]/[method:ensureNameIsSet()] (1 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureBookCreationWithEmptyAuthorsThrowsException()] (5 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.BioTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.BioTest]/[method:ensureValidBioIsSet()] (3 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureGenreNotNull()] (5 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.BioTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.BioTest]/[method:ensureBioIsSet()] (4 ms)</li><li>pt.psoft.g1.psoftg1.bookmanagement.model.BookTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.bookmanagement.model.BookTest]/[method:ensureUpdatingWithDifferentIsbnKeepsOldIsbn()] (5 ms)</li><li>pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest]/[method:ensureReaderNotNull()] (127 ms)</li><li>pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.lendingmanagement.model.LendingTest]/[method:testGetTitle()] (127 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='http://pitest.org'>PIT</a> 1.7.4
+
+</body>
+</html>

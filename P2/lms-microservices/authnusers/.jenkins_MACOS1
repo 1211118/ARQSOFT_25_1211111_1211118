@@ -1,0 +1,345 @@
+pipeline {
+    agent any
+
+    environment {
+        GIT_BRANCH = "main"
+        GIT_REPO_URL = "https://github.com/1211118/ODSOFT_1211111_1211118.git"
+        IMAGE_NAME = "authnusers:local"
+        REPO_NAME = "1211118/authnusers"
+        GREEN_CONTAINER_NAME = "authnusers-green"
+        BLUE_CONTAINER_NAME = "authnusers-blue"
+        JAR_PATH = "target/LMSUsers-0.0.1-SNAPSHOT.jar"
+        HOST_PORT = "8082"
+        GREEN_PORT = "8082"
+        BLUE_PORT = "8082"
+        DOCKER_CREDENTIALS_ID = "docker-hub-credentials"
+        BACKUP_IMAGE_NAME = "authnusers-backup:local"
+    }
+
+    tools {
+        jdk 'JDK 21'
+        maven 'Maven'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out the repository...'
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        git branch: "${GIT_BRANCH}", url: "${GIT_REPO_URL}"
+                        echo 'Repository checked out successfully.'
+                    }
+                }
+            }
+        }
+    
+            
+        
+        stage('Check for Changes in authnusers') {
+            steps {
+                script {
+                    def changes = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
+                    if (changes.contains('P2/lms-microservices/authnusers')) {
+                        echo "Changes detected in authnusers. Proceeding with pipeline..."
+                    } else {
+                        echo "No changes detected in authnusers. Skipping pipeline."
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                }
+            }
+        }
+
+        stage('Build JAR') {
+            steps {
+                echo "Building JAR file..."
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        dir('P2/lms-microservices/authnusers') {
+                            sh 'mvn clean package -DskipTests'  
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                echo "Building Docker image..."
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        docker.build("${IMAGE_NAME}", "P2/lms-microservices/authnusers") 
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy Green Environment') {
+            steps {
+                echo "Deploying Green Environment..."
+                sh """
+                docker run --name ${GREEN_CONTAINER_NAME} -d -p ${GREEN_PORT}:${HOST_PORT} ${IMAGE_NAME}
+                sleep 30
+
+                """
+            }
+        }
+
+        stage('Health Check - Green Environment') {
+            steps {
+                echo "Performing health check on Green Environment..."
+                script {
+                    def healthCheck = sh(script: "curl -s http://localhost:${GREEN_PORT}/actuator/health | grep UP", returnStatus: true)
+                    if (healthCheck != 0) {
+                        error "Health check failed for Green Environment."
+                    }
+                }
+            }
+        }
+
+        stage('Switch Traffic to Green') {
+            steps {
+                echo "Switching traffic to Green Environment..."
+                script {
+                    sh """
+                    docker rename ${GREEN_CONTAINER_NAME} ${BLUE_CONTAINER_NAME}
+                    """
+                }
+            }
+        }
+
+        stage('Run Tests on Blue (Active) Environment') {
+            steps {
+                echo "Running tests against Blue (Active) Environment..."
+                sh "curl -X GET http://localhost:${BLUE_PORT}/actuator/health -o health_check_output.txt"
+                echo "Health endpoint response:"
+                sh "cat health_check_output.txt"
+            }
+        }
+
+        stage('Backup Current Image') {
+            steps {
+                echo "Backing up current Docker image..."
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        sh """
+                        docker tag ${IMAGE_NAME} ${BACKUP_IMAGE_NAME}
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                echo "Pushing Docker image to Docker Hub..."
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                            sh '''
+                            echo "Logging in to Docker Hub..."
+                            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+
+                            echo "Tagging the image..."
+                            docker tag authnusers:local 1211118/authnusers:latest
+
+                            echo "Pushing the image..."
+                            docker push 1211118/authnusers:latest
+                            '''
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Notify User for Approval') {
+            steps {
+                emailext (
+                    subject: "Authnusers Jenkins Local Pipeline - Deployment Ready",
+                    body: """The authnusers local pipeline has successfully built and pushed the Docker image.
+                            Please approve the deployment in Jenkins to continue.""",
+                    to: '1211118@isep.ipp.pt'
+                )
+            }
+        }
+
+        stage('Wait for Approval') {
+            steps {
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        echo "The pipeline is waiting for your approval. Please click on the link below to proceed or abort the deployment."
+                        def userInput = input(
+                            message: "Do you want to proceed with the deployment?", 
+                            parameters: [
+                                choice(name: 'Approve Deployment', choices: ['Yes', 'No'], description: 'Select Yes to continue or No to abort.')
+                            ]
+                        )
+                        if (userInput == 'No') {
+                            currentBuild.result = 'ABORTED'
+                            error("Deployment aborted by user.")
+
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                echo "Running container locally..."
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        sh """
+                        docker stop ${BLUE_CONTAINER_NAME} || true
+                        docker rm ${BLUE_CONTAINER_NAME} || true
+                        docker run --name ${BLUE_CONTAINER_NAME} -d -p ${HOST_PORT}:${BLUE_PORT} ${IMAGE_NAME}
+                        """
+                        // Simulando uma falha nos testes
+                        //echo "Simulating failure in the container"
+                        //sh "exit 1" // Este comando simula a falha
+                    }
+                }
+            }
+        }
+        
+        stage('Scale Up and Down Services') {
+            steps {
+                echo "Scaling services locally..."
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        sh """
+                        # Scale up services by starting multiple containers
+                        for i in {1..3}; do
+                        docker run --name ${BLUE_CONTAINER_NAME}_\$i -d -p \$((HOST_PORT + i)):${BLUE_PORT} ${IMAGE_NAME}
+                        done
+
+                        # Simulate scaling down by stopping and removing the additional containers
+                        for i in {1..3}; do
+                            docker stop ${BLUE_CONTAINER_NAME}_\$i
+                            docker rm ${BLUE_CONTAINER_NAME}_\$i
+                        done
+                        """
+                    }
+                }
+            }
+        }
+        
+        stage('Check Container Logs') {
+            steps {
+                echo "Checking container logs..."
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        sh """
+                        docker logs ${BLUE_CONTAINER_NAME}
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Run Container Tests') {
+            steps {
+                echo "Waiting for the container to initialize..."
+                sh "sleep 10"
+
+                echo "Running tests against the container..."
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        sh '''
+                        set +e
+                        curl -X GET http://localhost:${HOST_PORT}/actuator/health -o health_check_output.txt
+                        echo Health endpoint response:
+                        cat health_check_output.txt
+                        set -e
+                        '''
+                    }
+                }
+            }
+        }
+        
+        stage('Run JMeter Performance Tests') {
+            steps {
+                script {
+                    try {
+                        echo "Running JMeter performance tests..."
+                        sh """
+                        java -jar /Users/leandrominguta/Desktop/ISEP/Mestrado/1_semestre/QSOFT/apache-jmeter-5.6.3/bin/ApacheJMeter.jar -n -t P2/lms-microservices/authnusers/Performance_Tests/ODSOFT_Authnusers.jmx -l jmeter_results.log
+                        """
+                
+                        // Lê o arquivo de resultados
+                        def result = readFile('jmeter_results.log')
+                
+                        // Exibe os resultados na consola
+                        echo "JMeter Performance Test Results:"
+                
+                        // Mostra uma mensagem indicando o sucesso ou falha com base nos erros
+                        if (result.contains("Err:     0 (0.00%)")) {
+                            echo "Performance tests completed successfully with no errors!"
+                        } else {
+                            echo "Performance tests completed with errors. Check the results above."
+                        }
+                    } catch (Exception e) {
+                        echo "An error occurred while running the JMeter tests. Check the logs for details."
+                    } finally {
+                        echo "JMeter tests finished. Proceeding with the next stages of the pipeline."
+                    }
+                }
+            }
+        }
+        
+        stage('Rollback If Pipeline Fails') {
+            steps {
+                script {
+                    // Verifica se o build falhou antes de realizar o rollback
+                    if (currentBuild.result == 'FAILURE' || currentBuild.result == 'ABORTED') {
+                        echo "Pipeline failed. Rolling back..."
+                        catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                            
+                            // Stop and remove the existing container with the same name
+                            sh """
+                            docker stop ${BLUE_CONTAINER_NAME} || true
+                            docker rm ${BLUE_CONTAINER_NAME} || true
+                            """
+                            
+                            // Run the container with the backup image
+                            sh """
+                            docker run --name ${BLUE_CONTAINER_NAME} -d -p ${HOST_PORT}:${BLUE_PORT} ${BACKUP_IMAGE_NAME}
+                            """
+                            echo "Rollback complete. Container is now running with backup image."
+                        }
+                    } else {
+                        echo "Pipeline was successful, no need for rollback."
+                    }
+                    // Limpeza de containers verdes e azuis não utilizados
+                    echo "Cleaning up unused green and blue containers..."
+                    sh """
+                    docker stop ${GREEN_CONTAINER_NAME} || true
+                    docker rm ${GREEN_CONTAINER_NAME} || true
+                    docker stop ${BLUE_CONTAINER_NAME} || true
+                    docker rm ${BLUE_CONTAINER_NAME} || true
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Cleaning up unused resources..."
+            cleanWs()
+        }
+        success {
+            echo "Pipeline executed successfully with zero downtime!"
+        }
+        failure {
+            echo "Pipeline failed. Rolling back to the previous stable state."
+            script {
+                sh """
+                docker stop ${GREEN_CONTAINER_NAME} || true
+                docker rm ${GREEN_CONTAINER_NAME} || true
+                """
+            }
+        }
+    }
+}

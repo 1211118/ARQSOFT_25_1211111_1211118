@@ -1,0 +1,4 @@
+Label,# Samples,Average,Min,Max,Std. Dev.,Error %,Throughput,Received KB/sec,Sent KB/sec,Avg. Bytes
+Login,100,123,120,131,"1,85","0,000%","1,73554","2,31","0,44","1360,0"
+Register,100,2,1,8,"0,81","0,000%","1,73931","0,66","0,58","386,0"
+TOTAL,200,62,1,131,"60,39","0,000%","3,47096","2,96","1,02","873,0"

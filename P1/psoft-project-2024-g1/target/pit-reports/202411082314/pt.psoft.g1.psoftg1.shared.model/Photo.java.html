@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+
+
+<h1>Photo.java</h1>
+
+<table class="src">
+
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_1'/>
+1
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_1'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>package pt.psoft.g1.psoftg1.shared.model;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_2'/>
+2
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_2'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_3'/>
+3
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_3'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.persistence.Entity;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_4'/>
+4
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_4'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.persistence.GeneratedValue;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_5'/>
+5
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_5'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.persistence.GenerationType;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_6'/>
+6
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_6'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.persistence.Id;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_7'/>
+7
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_7'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import jakarta.validation.constraints.NotNull;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_8'/>
+8
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_8'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import lombok.Getter;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_9'/>
+9
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_9'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import lombok.Setter;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_10'/>
+10
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_10'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_11'/>
+11
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_11'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>import java.nio.file.Path;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_12'/>
+12
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_12'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_13'/>
+13
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_13'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>@Entity</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_14'/>
+14
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_14'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>public class Photo {</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_15'/>
+15
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_15'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @Id</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_16'/>
+16
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_16'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @GeneratedValue(strategy= GenerationType.AUTO)</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_17'/>
+17
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_17'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private long pk;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_18'/>
+18
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_18'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_19'/>
+19
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_19'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    @NotNull</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_20'/>
+20
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_20'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    @Setter</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_21'/>
+21
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_21'>1</a>
+<span>
+1. getPhotoFile : replaced return value with &#34;&#34; for pt/psoft/g1/psoftg1/shared/model/Photo::getPhotoFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>    @Getter</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_22'/>
+22
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_22'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>    private String photoFile;</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_23'/>
+23
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_23'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='uncovered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_24'/>
+24
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_24'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='uncovered'><pre><span  class=''>    protected Photo (){}</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_25'/>
+25
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_25'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_26'/>
+26
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_26'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    public Photo (Path photoPath){</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_27'/>
+27
+</td>
+<td class='killed'>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_27'>1</a>
+<span>
+1. &#60;init&#62; : removed call to pt/psoft/g1/psoftg1/shared/model/Photo::setPhotoFile &rarr; KILLED<br/>
+
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class='killed'>        setPhotoFile(photoPath.toString());</span></pre></td></tr>
+
+
+<tr>
+<td class='covered'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_28'/>
+28
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_28'></a>
+<span>
+</span>
+</span>
+</td>
+<td class='covered'><pre><span  class=''>    }</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_29'/>
+29
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_29'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''>}</span></pre></td></tr>
+
+
+<tr>
+<td class='na'>
+<a name='org.pitest.mutationtest.report.html.SourceFile@34d72f06_30'/>
+30
+</td>
+<td class=''>
+<span class='pop'>
+<a href='#grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_30'></a>
+<span>
+</span>
+</span>
+</td>
+<td class=''><pre><span  class=''></span></pre></td></tr>
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@34d72f06_21'>21</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_21'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getPhotoFile<br/><b>Killed by : </b>pt.psoft.g1.psoftg1.shared.model.PhotoTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.shared.model.PhotoTest]/[method:ensurePathIsValidToLocalFile()]</span></span> replaced return value with &#34;&#34; for pt/psoft/g1/psoftg1/shared/model/Photo::getPhotoFile &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@34d72f06_27'>27</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@34d72f06_27'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>&#60;init&#62;<br/><b>Killed by : </b>pt.psoft.g1.psoftg1.shared.model.PhotoTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.shared.model.PhotoTest]/[method:ensurePathIsValidToLocalFile()]</span></span> removed call to pt/psoft/g1/psoftg1/shared/model/Photo::setPhotoFile &rarr; KILLED</p> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>CONDITIONALS_BOUNDARY</li>
+<li class='mutator'>EMPTY_RETURNS</li>
+<li class='mutator'>FALSE_RETURNS</li>
+<li class='mutator'>INCREMENTS</li>
+<li class='mutator'>INVERT_NEGS</li>
+<li class='mutator'>MATH</li>
+<li class='mutator'>NEGATE_CONDITIONALS</li>
+<li class='mutator'>NULL_RETURNS</li>
+<li class='mutator'>PRIMITIVE_RETURNS</li>
+<li class='mutator'>TRUE_RETURNS</li>
+<li class='mutator'>VOID_METHOD_CALLS</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testPartialUpdateWithApplyPatch()] (6 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:whenRemovingPhoto_thenVersionRemainsUnchanged()] (4 ms)</li><li>pt.psoft.g1.psoftg1.readermanagement.model.ReaderTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.readermanagement.model.ReaderTest]/[method:ensureInterestListCanTakeAnyValidGenre()] (2 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:whenApplyingPatch_thenVersionIsUpdated()] (6 ms)</li><li>pt.psoft.g1.psoftg1.shared.model.PhotoTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.shared.model.PhotoTest]/[method:ensurePathIsValidToLocalFile()] (1 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testCompleteUpdateWithApplyPatch()] (6 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testEntityWithPhotoSetPhotoInternalWithValidURI()] (7 ms)</li><li>pt.psoft.g1.psoftg1.readermanagement.model.ReaderTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.readermanagement.model.ReaderTest]/[method:ensureValidPhoto()] (2 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:whenApplyingPatchWithPartialUpdate_thenOnlySpecifiedFieldsAreUpdated()] (7 ms)</li><li>pt.psoft.g1.psoftg1.readermanagement.model.ReaderTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.readermanagement.model.ReaderTest]/[method:ensureInterestListCanBeNullOrEmptyList_AkaOptional()] (2 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testCreateAuthorRequestWithPhoto()] (8 ms)</li><li>pt.psoft.g1.psoftg1.readermanagement.model.ReaderTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.readermanagement.model.ReaderTest]/[method:testApplyPatch_UpdatesFieldsCorrectly()] (4 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:ensureBioNotNull()] (15 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testAuthorCreationWithValidPhoto()] (6 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:whenApplyingPatchWithNewPhoto_thenPhotoStateIsUpdated()] (5 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:whenRemovingPhoto_thenPhotoIsSetToNull()] (4 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testRemovePhotoWithCorrectVersion()] (6 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:ensureValidPhoto()] (6 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:testRemovePhotoWithIncorrectVersion()] (8 ms)</li><li>pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest.[engine:junit-jupiter]/[class:pt.psoft.g1.psoftg1.authormanagement.model.AuthorTest]/[method:whenCreatingAuthor_thenInternalStateIsConsistent()] (5 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='http://pitest.org'>PIT</a> 1.7.4
+
+</body>
+</html>

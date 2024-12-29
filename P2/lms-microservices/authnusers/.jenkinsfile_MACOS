@@ -1,0 +1,228 @@
+pipeline {
+    agent any
+
+    environment {
+        BRANCH_NAME = "${env.BRANCH_NAME}"
+        GIT_REPO_URL = "https://github.com/1211118/ODSOFT_1211111_1211118.git"
+        IMAGE_NAME = "authnusers:${env.BRANCH_NAME}"
+        REPO_NAME = "1211118/authnusers"
+        CONTAINER_NAME = "authnusers-${env.BRANCH_NAME}"
+        JAR_PATH = "target/LMSUsers-0.0.1-SNAPSHOT.jar"
+        HOST_PORT = "${env.BRANCH_NAME == 'main' ? '8090' : env.BRANCH_NAME == 'test' ? '8091' : '8092'}"
+        CONTAINER_PORT = "8082"
+        DOCKER_CREDENTIALS_ID = "docker-hub-credentials"
+        BACKUP_IMAGE_NAME = "authnusers-backup:${env.BRANCH_NAME}"
+    }
+
+    tools {
+        jdk 'JDK 21'
+        maven 'Maven'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out the repository...'
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        git branch: "${env.BRANCH_NAME}", url: "${GIT_REPO_URL}"
+                        echo 'Repository checked out successfully.'
+                    }
+                }
+            }
+        }
+
+        stage('Stop and Remove Container') {
+            steps {
+                echo "Stopping and removing container..."
+                sh """
+                docker stop ${CONTAINER_NAME} || true
+                docker rm ${CONTAINER_NAME} || true
+                """
+            }
+        }
+
+        stage('Check for Changes in authnusers') {
+            steps {
+                script {
+                    def changes = sh(script: "git diff --name-only HEAD~1 HEAD", returnStdout: true).trim()
+                    if (changes.contains('P2/lms-microservices/authnusers')) {
+                        echo "Changes detected in authnusers. Proceeding with pipeline..."
+                    } else {
+                        echo "No changes detected in authnusers. Skipping pipeline."
+                        currentBuild.result = 'SUCCESS'
+                        return
+                    }
+                }
+            }
+        }
+
+        stage('Build JAR') {
+            steps {
+                echo "Building JAR file..."
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        dir('P2/lms-microservices/authnusers') {
+                            sh 'mvn clean package -DskipTests'  
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                echo "Building Docker image..."
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        docker.build("${IMAGE_NAME}", "P2/lms-microservices/authnusers") 
+                    }
+                }
+            }
+        }
+
+        stage('Backup Current Image') {
+            steps {
+                echo "Backing up current Docker image..."
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        sh """
+                        docker tag ${IMAGE_NAME} ${BACKUP_IMAGE_NAME}
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                echo "Pushing Docker image to Docker Hub..."
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                            sh '''
+                            echo "Logging in to Docker Hub..."
+                            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+
+                            echo "Tagging the image..."
+                            docker tag ${IMAGE_NAME} 1211118/authnusers:latest-${BRANCH_NAME}
+
+                            echo "Pushing the image..."
+                            docker push 1211118/authnusers:latest-${BRANCH_NAME}
+                            '''
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Notify User for Approval') {
+            steps {
+                emailext (
+                    subject: "Authnusers Jenkins Pipeline - Deployment Ready for ${env.BRANCH_NAME}",
+                    body: """The authnusers pipeline has successfully built and pushed the Docker image for the ${env.BRANCH_NAME} branch.
+                            Please approve the deployment in Jenkins to continue.""",
+                    to: '1211118@isep.ipp.pt'
+                )
+            }
+        }
+
+        stage('Wait for Approval') {
+            steps {
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        echo "The pipeline is waiting for your approval. Please click on the link below to proceed or abort the deployment."
+                        def userInput = input(
+                            message: "Do you want to proceed with the deployment?", 
+                            parameters: [
+                                choice(name: 'Approve Deployment', choices: ['Yes', 'No'], description: 'Select Yes to continue or No to abort.')
+                            ]
+                        )
+                        if (userInput == 'No') {
+                            currentBuild.result = 'ABORTED'
+                            error("Deployment aborted by user.")
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                echo "Running container locally..."
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        sh """
+                        docker run --name ${CONTAINER_NAME} -d -p ${HOST_PORT}:${CONTAINER_PORT} ${IMAGE_NAME}
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Run Container Tests') {
+            steps {
+                echo "Waiting for the container to initialize..."
+                sh "sleep 10"
+
+                echo "Running tests against the container..."
+                script {
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        if (env.BRANCH_NAME == 'main') {
+                            echo "Running full suite of tests for production..."
+                            sh '''
+                            cd P2/lms-microservices/authnusers
+                            mvn clean verify -Pintegration
+                            '''
+                        } else if (env.BRANCH_NAME == 'test') {
+                            echo "Running integration tests..."
+                            sh '''
+                            cd P2/lms-microservices/authnusers
+                            mvn clean verify -Pintegration
+                            '''
+                        } else if (env.BRANCH_NAME == 'dev') {
+                            echo "Running basic smoke tests for development..."
+                            sh '''
+                            cd P2/lms-microservices/authnusers
+                            mvn clean test -Psmoke
+                            '''
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Rollback If Pipeline Fails') {
+            steps {
+                script {
+                    if (currentBuild.result == 'FAILURE' || currentBuild.result == 'ABORTED') {
+                        echo "Pipeline failed. Rolling back..."
+                        catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                            sh """
+                            docker stop ${CONTAINER_NAME} || true
+                            docker rm ${CONTAINER_NAME} || true
+                            docker run --name ${CONTAINER_NAME} -d -p ${HOST_PORT}:${CONTAINER_PORT} ${BACKUP_IMAGE_NAME}
+                            """
+                            echo "Rollback complete. Container is now running with backup image."
+                        }
+                    } else {
+                        echo "Pipeline was successful, no need for rollback."
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Cleaning up workspace to avoid memory issues..."
+            cleanWs()
+        }
+        success {
+            echo "Pipeline executed successfully!"
+        }
+        failure {
+            echo "Pipeline failed. Check the logs."
+        }
+    }
+}
