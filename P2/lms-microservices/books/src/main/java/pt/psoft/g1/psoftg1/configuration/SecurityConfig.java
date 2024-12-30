@@ -92,12 +92,13 @@ public class SecurityConfig {
                 .requestMatchers("/").permitAll().requestMatchers(format("%s/**", restApiDocPath)).permitAll()
                 .requestMatchers(format("%s/**", swaggerPath)).permitAll()
                 .requestMatchers("/actuator/health").permitAll()
+                .requestMatchers("/h2-console/**").permitAll()
                 // Our public endpoints
                 .requestMatchers("/api/public/**").permitAll() // public assets & end-points
                 .requestMatchers(HttpMethod.POST, "/api/readers").permitAll() // unregistered should be able to register
                 // Our private endpoints
                 // authors
-                .requestMatchers(HttpMethod.POST, "/api/authors").hasRole(Role.LIBRARIAN)
+                .requestMatchers(HttpMethod.POST, "/api/authors").hasRole(Role.READER)
                 .requestMatchers(HttpMethod.PATCH, "/api/authors/{authorNumber}").hasRole(Role.LIBRARIAN)
                 .requestMatchers(HttpMethod.GET, "/api/authors/{authorNumber}").hasAnyRole(Role.READER, Role.LIBRARIAN)
                 .requestMatchers(HttpMethod.GET, "/api/authors").hasAnyRole(Role.READER, Role.LIBRARIAN)
@@ -130,6 +131,8 @@ public class SecurityConfig {
                 .requestMatchers("/**").hasRole(Role.ADMIN).anyRequest().authenticated()
                 // Set up oauth2 resource server
                 .and().httpBasic(Customizer.withDefaults()).oauth2ResourceServer().jwt();
+
+                http.headers(headers -> headers.frameOptions().sameOrigin());
 
         return http.build();
     }
