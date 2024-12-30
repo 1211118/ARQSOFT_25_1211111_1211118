@@ -1,7 +1,7 @@
 
----
+# **Comparative Analysis 1 - Persisting Data**
 
-# Repositórios e Injeção de Dependências em Múltiplas Bases de Dados (Com exemplo do Author)
+## Repositórios e Injeção de Dependências em Múltiplas Bases de Dados (Com exemplo do Author)
 
 Este documento explica como a injeção de repositórios é configurada para persistir dados em diferentes bases de dados usando Spring e um arquivo de configuração XML (`applicationContext.xml`). A abordagem apresentada permite que diferentes implementações de uma interface de repositório coexistam e que uma base de dados específica seja selecionada dinamicamente para a persistência dos dados. Além disso, é utilizado um conversor para adaptar os modelos entre sistemas de banco de dados distintos.
 
