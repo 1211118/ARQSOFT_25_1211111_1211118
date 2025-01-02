@@ -31,4 +31,6 @@ public interface BookService {
     Book removeBookPhoto(String isbn, long desiredVersion);
 
     List<Book> searchBooks(Page page, SearchBooksQuery query);
+
+    void createWithAuthorAndGenre(CreateBookWithAuthorAndGenreRequest request);
 }

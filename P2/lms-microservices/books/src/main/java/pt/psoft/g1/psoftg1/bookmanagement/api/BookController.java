@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pt.psoft.g1.psoftg1.bookmanagement.model.Book;
 import pt.psoft.g1.psoftg1.bookmanagement.services.BookService;
 import pt.psoft.g1.psoftg1.bookmanagement.services.CreateBookRequest;
+import pt.psoft.g1.psoftg1.bookmanagement.services.CreateBookWithAuthorAndGenreRequest;
 import pt.psoft.g1.psoftg1.bookmanagement.services.SearchBooksQuery;
 import pt.psoft.g1.psoftg1.bookmanagement.services.UpdateBookRequest;
 import pt.psoft.g1.psoftg1.exceptions.ConflictException;
@@ -43,33 +45,36 @@ public class BookController {
     private final BookViewMapper bookViewMapper;
 
     @Operation(summary = "Register a new Book")
-    @PutMapping(value = "/{isbn}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<BookView> create(CreateBookRequest resource, @PathVariable("isbn") String isbn) {
+@PutMapping(value = "/{isbn}")
+@ResponseStatus(HttpStatus.CREATED)
+public ResponseEntity<BookView> create(@Valid @RequestBody CreateBookRequest resource, @PathVariable("isbn") String isbn) {
+    System.out.println("Received request: " + resource);
 
-        // Guarantee that the client doesn't provide a link on the body, null = no photo or error
-        resource.setPhotoURI(null);
-        MultipartFile file = resource.getPhoto();
+    // Garantir que o cliente não fornece um link no corpo, null = sem foto ou erro
+    resource.setPhotoURI(null);
+    MultipartFile file = resource.getPhoto();
 
-        String fileName = fileStorageService.getRequestPhoto(file);
+    String fileName = fileStorageService.getRequestPhoto(file);
 
-        if (fileName != null) {
-            resource.setPhotoURI(fileName);
-        }
-
-        Book book;
-        try {
-            book = bookService.create(resource, isbn);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        // final var savedBook = bookService.save(book);
-        final var newBookUri = ServletUriComponentsBuilder.fromCurrentRequestUri().pathSegment(book.getIsbn()).build()
-                .toUri();
-
-        return ResponseEntity.created(newBookUri).eTag(Long.toString(book.getVersion()))
-                .body(bookViewMapper.toBookView(book));
+    if (fileName != null) {
+        resource.setPhotoURI(fileName);
     }
+
+    Book book;
+    try {
+        book = bookService.create(resource, isbn);
+    } catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
+        return new ResponseEntity<>(HttpStatus.GONE);
+    }
+
+    final var newBookUri = ServletUriComponentsBuilder.fromCurrentRequestUri().pathSegment(book.getIsbn()).build()
+            .toUri();
+
+    return ResponseEntity.created(newBookUri).eTag(Long.toString(book.getVersion()))
+            .body(bookViewMapper.toBookView(book));
+}
+
 
     @Operation(summary = "Updates a specific Book")
     @PatchMapping(value = "/{isbn}")
@@ -196,4 +201,13 @@ public class BookController {
         final var bookList = bookService.searchBooks(request.getPage(), request.getQuery());
         return new ListResponse<>(bookViewMapper.toBookView(bookList));
     }
+
+    @PostMapping("/createWithAuthorAndGenre")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<BookView> createWithAuthorAndGenre(@RequestBody @Valid CreateBookWithAuthorAndGenreRequest request) {
+    // Enviar mensagens RabbitMQ para criação de Author e Genre
+    bookService.createWithAuthorAndGenre(request);
+    return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+}
+
 }
