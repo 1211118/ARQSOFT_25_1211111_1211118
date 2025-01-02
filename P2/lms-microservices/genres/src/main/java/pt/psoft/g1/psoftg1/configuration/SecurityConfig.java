@@ -97,6 +97,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/public/**").permitAll() // public assets & end-points
                 .requestMatchers(HttpMethod.POST, "/api/readers").permitAll() // unregistered should be able to register
                 // Our private endpoints
+                .requestMatchers(HttpMethod.POST, "/api/genres").hasRole(Role.READER)
                 // authors
                 .requestMatchers(HttpMethod.POST, "/api/authors").hasRole(Role.READER)
                 .requestMatchers(HttpMethod.PATCH, "/api/authors/{authorNumber}").hasRole(Role.LIBRARIAN)
@@ -133,6 +134,7 @@ public class SecurityConfig {
                 .and().httpBasic(Customizer.withDefaults()).oauth2ResourceServer().jwt();
 
                 http.headers(headers -> headers.frameOptions().sameOrigin());
+
 
         return http.build();
     }
@@ -180,6 +182,7 @@ public class SecurityConfig {
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
+
     }
 
 }

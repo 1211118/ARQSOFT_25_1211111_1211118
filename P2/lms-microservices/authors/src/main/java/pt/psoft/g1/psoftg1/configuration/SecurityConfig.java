@@ -98,8 +98,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/readers").permitAll() // unregistered should be able to register
                 // Our private endpoints
                 // authors
-                .requestMatchers(HttpMethod.POST, "/api/authors").hasRole(Role.READER)
-                .requestMatchers(HttpMethod.PATCH, "/api/authors/{authorNumber}").hasRole(Role.LIBRARIAN)
+                .requestMatchers(HttpMethod.POST, "/api/authors").permitAll()
+                .requestMatchers(HttpMethod.PATCH, "/api/authors/{authorNumber}").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/authors/{authorNumber}").hasAnyRole(Role.READER, Role.LIBRARIAN)
                 .requestMatchers(HttpMethod.GET, "/api/authors").hasAnyRole(Role.READER, Role.LIBRARIAN)
                 .requestMatchers(HttpMethod.GET, "/api/authors/{authorNumber}/books").hasRole(Role.READER)

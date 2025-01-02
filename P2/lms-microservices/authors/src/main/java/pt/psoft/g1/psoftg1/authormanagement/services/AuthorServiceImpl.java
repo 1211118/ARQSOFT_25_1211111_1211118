@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pt.psoft.g1.psoftg1.authormanagement.api.AuthorLendingView;
 import pt.psoft.g1.psoftg1.authormanagement.model.Author;
+import pt.psoft.g1.psoftg1.authormanagement.publishers.AuthorEventsPublisher;
 import pt.psoft.g1.psoftg1.authormanagement.repositories.AuthorRepository;
 import pt.psoft.g1.psoftg1.bookmanagement.model.Book;
 import pt.psoft.g1.psoftg1.bookmanagement.repositories.BookRepository;
@@ -23,6 +24,9 @@ public class AuthorServiceImpl implements AuthorService {
     private final BookRepository bookRepository;
     private final AuthorMapper mapper;
     private final PhotoRepository photoRepository;
+
+
+    private final AuthorEventsPublisher authorEventsPublisher;
 
     @Override
     public Iterable<Author> findAll() {
@@ -56,8 +60,13 @@ public class AuthorServiceImpl implements AuthorService {
             resource.setPhoto(null);
             resource.setPhotoURI(null);
         }
-        final Author author = mapper.create(resource);
-        return authorRepository.save(author);
+
+        System.out.println("Creating author with name: " + resource.getName());
+        
+        Author author = mapper.create(resource);
+        Author savedAuthor = authorRepository.save(author);
+        authorEventsPublisher.sendAuthorCreated(savedAuthor);
+        return savedAuthor;
     }
 
     @Override
@@ -88,7 +97,9 @@ public class AuthorServiceImpl implements AuthorService {
         // in the meantime some other user might have changed this object on the
         // database, so concurrency control will still be applied when we try to save
         // this updated object
-        return authorRepository.save(author);
+        Author updatedAuthor = authorRepository.save(author);
+        authorEventsPublisher.sendAuthorUpdated(updatedAuthor);
+        return updatedAuthor;
     }
 
     @Override
@@ -104,13 +115,13 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Optional<Author> removeAuthorPhoto(Long authorNumber, long desiredVersion) {
         Author author = authorRepository.findByAuthorNumber(authorNumber)
-                .orElseThrow(() -> new NotFoundException("Cannot find reader"));
-
+                .orElseThrow(() -> new NotFoundException("Author not found"));
         String photoFile = author.getPhoto().getPhotoFile();
         author.removePhoto(desiredVersion);
-        Optional<Author> updatedAuthor = Optional.of(authorRepository.save(author));
+        Author updatedAuthor = authorRepository.save(author);
         photoRepository.deleteByPhotoFile(photoFile);
-        return updatedAuthor;
+        authorEventsPublisher.sendAuthorDeleted(updatedAuthor);
+        return Optional.of(updatedAuthor);
     }
 
 }

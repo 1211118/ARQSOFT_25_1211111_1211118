@@ -2,6 +2,7 @@ package pt.psoft.g1.psoftg1.authormanagement.services;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @Schema(description = "A DTO for creating a Author")
 public class CreateAuthorRequest {
+    @NotBlank(message = "Name cannot be null or blank")
     @Size(min = 1, max = 150)
     private String name;
 
