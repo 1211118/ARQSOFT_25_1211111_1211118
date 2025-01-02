@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import pt.psoft.g1.psoftg1.exceptions.NotFoundException;
 import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
+import pt.psoft.g1.psoftg1.genremanagement.publishers.GenreEventsPublisher;
 import pt.psoft.g1.psoftg1.genremanagement.repositories.GenreRepository;
 import pt.psoft.g1.psoftg1.shared.services.Page;
 
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class GenreServiceImpl implements GenreService {
 
     private final GenreRepository genreRepository;
+    private final GenreEventsPublisher genreEventsPublisher;
 
     public Optional<Genre> findByString(String name) {
         return genreRepository.findByString(name);
@@ -38,44 +40,10 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public Genre save(Genre genre) {
-        return this.genreRepository.save(genre);
+        Genre savedGenre = genreRepository.save(genre);
+        genreEventsPublisher.sendGenreCreated(savedGenre);
+        return savedGenre;
     }
 
-//    @Override
-//    public List<GenreLendingsPerMonthDTO> getLendingsPerMonthLastYearByGenre() {
-//        return genreRepository.getLendingsPerMonthLastYearByGenre();
-//    }
 
-//    @Override
-//    public List<GenreLendingsDTO> getAverageLendings(GetAverageLendingsQuery query, Page page) {
-//        if (page == null)
-//            page = new Page(1, 10);
-//
-//        final var month = LocalDate.of(query.getYear(), query.getMonth(), 1);
-//
-//        return genreRepository.getAverageLendingsInMonth(month, page);
-//    }
-
-//    @Override
-//    public List<GenreLendingsPerMonthDTO> getLendingsAverageDurationPerMonth(String start, String end) {
-//        LocalDate startDate;
-//        LocalDate endDate;
-//
-//        try {
-//            startDate = LocalDate.parse(start);
-//            endDate = LocalDate.parse(end);
-//        } catch (DateTimeParseException e) {
-//            throw new IllegalArgumentException("Expected format is YYYY-MM-DD");
-//        }
-//
-//        if (startDate.isAfter(endDate))
-//            throw new IllegalArgumentException("Start date cannot be after end date");
-//
-//        final var list = genreRepository.getLendingsAverageDurationPerMonth(startDate, endDate);
-//
-//        if (list.isEmpty())
-//            throw new NotFoundException("No objects match the provided criteria");
-//
-//        return list;
-//    }
 }
