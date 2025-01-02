@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.web.multipart.MultipartFile;
 import pt.psoft.g1.psoftg1.authormanagement.model.Author;
+import pt.psoft.g1.psoftg1.bookmanagement.api.AuthorViewAMQP;
 import pt.psoft.g1.psoftg1.bookmanagement.api.BookViewAMQP;
+import pt.psoft.g1.psoftg1.bookmanagement.api.GenreViewAMQP;
 import pt.psoft.g1.psoftg1.bookmanagement.model.*;
 import pt.psoft.g1.psoftg1.bookmanagement.publishers.BookEventsPublisher;
 import pt.psoft.g1.psoftg1.bookmanagement.repositories.BookRepository;
@@ -244,4 +246,45 @@ public class BookServiceImpl implements BookService {
         return authors;
     }
 
+
+    @Override
+public void createWithAuthorAndGenre(CreateBookWithAuthorAndGenreRequest request) {
+    // Enviar evento para criar Author
+    AuthorViewAMQP author = new AuthorViewAMQP();
+    author.setName(request.getAuthorName());
+    author.setBio(request.getAuthorBio());
+    bookEventsPublisher.sendAuthorCreated(author);
+
+    // Enviar evento para criar Genre
+    GenreViewAMQP genre = new GenreViewAMQP();
+    genre.setGenre(request.getGenre());
+    bookEventsPublisher.sendGenreCreated(genre);
+
+    Author newAuthor = new Author(request.getAuthorName(), request.getAuthorBio(), null);
+    authorRepository.save(newAuthor);
+    Genre newGenre = new Genre(request.getGenre());
+    genreRepository.save(newGenre);
+
+    // Criar o Book localmente
+    Book newBook = new Book(request.getIsbn(), request.getTitle(), request.getDescription(),
+                            newGenre, List.of(newAuthor), null);
+    bookRepository.save(newBook);
+}
+
+/*
+ * @Override
+    public Book create(BookViewAMQP bookViewAMQP) {
+
+        final String isbn = bookViewAMQP.getIsbn();
+        final String description = bookViewAMQP.getDescription();
+        final String title = bookViewAMQP.getTitle();
+        final String photoURI = null;
+        final String genre = bookViewAMQP.getGenre();
+        final List<Long> authorIds = bookViewAMQP.getAuthorIds();
+
+        Book bookCreated = create(isbn, title, description, photoURI, genre, authorIds);
+
+        return bookCreated;
+    }
+ */
 }

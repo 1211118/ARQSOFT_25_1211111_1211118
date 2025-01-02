@@ -12,7 +12,8 @@ public class RabbitmqClientConfig {
 
     @Bean
     public DirectExchange direct() {
-        return new DirectExchange("LMS.authors");
+        // Shared exchange for all microservices
+        return new DirectExchange("LMS");
     }
 
     @Bean

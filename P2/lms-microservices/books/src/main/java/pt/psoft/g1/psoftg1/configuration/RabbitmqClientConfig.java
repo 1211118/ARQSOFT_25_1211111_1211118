@@ -15,7 +15,7 @@ public  class RabbitmqClientConfig {
 
     @Bean
     public DirectExchange direct() {
-        return new DirectExchange("LMS.books");
+        return new DirectExchange("LMS");
     }
 
     private static class ReceiverConfig {
@@ -65,5 +65,15 @@ public  class RabbitmqClientConfig {
         public BookEventRabbitmqReceiver receiver(BookService bookService, @Qualifier("autoDeleteQueue_Book_Created") Queue autoDeleteQueue_Book_Created) {
             return new BookEventRabbitmqReceiver(bookService);
         }
+
+        @Bean
+public Queue authorCreatedQueue() {
+    return new Queue("AUTHOR_CREATED", true);
+}
+
+@Bean
+public Queue genreCreatedQueue() {
+    return new Queue("GENRE_CREATED", true);
+}
     }
 }

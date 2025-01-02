@@ -1,6 +1,8 @@
 package pt.psoft.g1.psoftg1.genremanagement.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -12,41 +14,28 @@ import pt.psoft.g1.psoftg1.genremanagement.services.GenreService;
 public class GenreEventRabbitmqReceiver {
 
     private final GenreService genreService;
-    
 
-    @RabbitListener(queues = "#{autoDeleteQueue_Genre_Created.name}")
-    public void receiveGenreCreated(String message) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            Genre genre = objectMapper.readValue(message, Genre.class);
-            genreService.save(genre);
-            System.out.println(" [x] Received Genre Created: " + genre);
-        } catch (Exception ex) {
-            System.out.println(" [x] Exception receiving genre created event: '" + ex.getMessage() + "'");
-        }
-    }
+    @RabbitListener(queues = "GENRE_CREATED")
+public void receiveGenreCreated(String message) {
+    try {
+        ObjectMapper objectMapper = new ObjectMapper();
+        GenreView genreViewAMQP = objectMapper.readValue(message, GenreView.class);
 
-    @RabbitListener(queues = "#{autoDeleteQueue_Genre_Updated.name}")
-    public void receiveGenreUpdated(String message) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            Genre genre = objectMapper.readValue(message, Genre.class);
-            //genreService.update(genre, genre.getVersion());
-            System.out.println(" [x] Received Genre Updated: " + genre);
-        } catch (Exception ex) {
-            System.out.println(" [x] Exception receiving genre updated event: '" + ex.getMessage() + "'");
+        // Verificar se o gênero já existe no banco de dados
+        Optional<Genre> existingGenre = genreService.findByString(genreViewAMQP.getGenre());
+        if (existingGenre.isPresent()) {
+            System.out.println(" [x] Genre already exists: " + genreViewAMQP.getGenre());
+            return; // Não tentar inserir novamente
         }
-    }
 
-    @RabbitListener(queues = "#{autoDeleteQueue_Genre_Deleted.name}")
-    public void receiveGenreDeleted(String message) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            Genre genre = objectMapper.readValue(message, Genre.class);
-            //genreService.delete(genre);
-            System.out.println(" [x] Received Genre Deleted: " + genre);
-        } catch (Exception ex) {
-            System.out.println(" [x] Exception receiving genre deleted event: '" + ex.getMessage() + "'");
-        }
+        // Criar e salvar o novo gênero
+        Genre genre = new Genre(genreViewAMQP.getGenre());
+        genreService.save(genre);
+        System.out.println(" [x] Genre created successfully: " + genreViewAMQP.getGenre());
+
+    } catch (Exception ex) {
+        System.err.println(" [!] Exception receiving GENRE_CREATED event: '" + ex.getMessage() + "'");
     }
+}
+
 }

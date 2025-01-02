@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pt.psoft.g1.psoftg1.bookmanagement.model.Book;
 import pt.psoft.g1.psoftg1.bookmanagement.services.BookService;
 import pt.psoft.g1.psoftg1.bookmanagement.services.CreateBookRequest;
+import pt.psoft.g1.psoftg1.bookmanagement.services.CreateBookWithAuthorAndGenreRequest;
 import pt.psoft.g1.psoftg1.bookmanagement.services.SearchBooksQuery;
 import pt.psoft.g1.psoftg1.bookmanagement.services.UpdateBookRequest;
 import pt.psoft.g1.psoftg1.exceptions.ConflictException;
@@ -200,4 +201,13 @@ public ResponseEntity<BookView> create(@Valid @RequestBody CreateBookRequest res
         final var bookList = bookService.searchBooks(request.getPage(), request.getQuery());
         return new ListResponse<>(bookViewMapper.toBookView(bookList));
     }
+
+    @PostMapping("/createWithAuthorAndGenre")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<BookView> createWithAuthorAndGenre(@RequestBody @Valid CreateBookWithAuthorAndGenreRequest request) {
+    // Enviar mensagens RabbitMQ para criação de Author e Genre
+    bookService.createWithAuthorAndGenre(request);
+    return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+}
+
 }
