@@ -6,7 +6,9 @@ import org.springframework.web.multipart.MultipartFile;
 import pt.psoft.g1.psoftg1.bookSuggestionManagement.api.BookSuggestionView;
 import pt.psoft.g1.psoftg1.bookSuggestionManagement.model.BookSuggestion;
 import pt.psoft.g1.psoftg1.bookSuggestionManagement.repositories.BookSuggestionRepository;
+import pt.psoft.g1.psoftg1.bookSuggestionManagement.services.BookSuggestionService;
 import pt.psoft.g1.psoftg1.bookSuggestionManagement.publishers.BookSuggestionPublisher;
+import pt.psoft.g1.psoftg1.bookSuggestionManagement.model.Isbn;
 import pt.psoft.g1.psoftg1.shared.services.FileStorageService;
 
 import java.time.LocalDateTime;
@@ -31,9 +33,9 @@ public class BookSuggestionServiceImpl implements BookSuggestionService {
                 .description(request.getDescription())
                 .genre(request.getGenre())
                 .authors(request.getAuthors())
+                .isbn(new Isbn(request.getIsbn()))
                 .photoURI(photoURI)
                 .suggestedByReaderId(request.getReaderId())
-                .suggestedAt(LocalDateTime.now())
                 .status("PENDING")
                 .build();
 
@@ -53,8 +55,8 @@ public class BookSuggestionServiceImpl implements BookSuggestionService {
                 .genre(suggestion.getGenre())
                 .photoURI(suggestion.getPhotoURI())
                 .authors(suggestion.getAuthors())
+                .isbn(suggestion.getIsbn().toString())
                 .suggestedByReaderId(suggestion.getSuggestedByReaderId())
-                .suggestedAt(suggestion.getSuggestedAt())
                 .status(suggestion.getStatus())
                 .build();
     }

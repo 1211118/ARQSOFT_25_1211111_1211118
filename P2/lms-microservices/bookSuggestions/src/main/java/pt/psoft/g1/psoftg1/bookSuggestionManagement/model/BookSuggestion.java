@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
+import pt.psoft.g1.psoftg1.bookSuggestionManagement.model.Isbn;
 
 @Entity
 @Data
@@ -33,11 +34,12 @@ public class BookSuggestion {
             joinColumns = @JoinColumn(name = "book_suggestion_id"))
     @Column(name = "author_id", nullable = false)
     private List<Long> authors;
+
+    @Column(nullable = false)
+    Isbn isbn;
     
     private Long suggestedByReaderId;
-    
-    private LocalDateTime suggestedAt;
-    
+        
     private String status;  // PENDING, APPROVED, REJECTED
 
     @Transient  // Não será persistido no banco de dados

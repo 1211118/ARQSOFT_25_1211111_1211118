@@ -27,7 +27,6 @@ public class Bootstrapper implements CommandLineRunner {
                 .photoURI("example/photo/path")
                 .authors(List.of(1L)) // Adicionando um autor com ID 1
                 .suggestedByReaderId(1L)
-                .suggestedAt(LocalDateTime.now())
                 .status("PENDING")
                 .build();
 

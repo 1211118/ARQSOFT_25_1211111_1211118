@@ -14,10 +14,11 @@ pt/psoft/g1/psoftg1/exceptions/FileStorageException.class
 pt/psoft/g1/psoftg1/bookSuggestionManagement/infrastructure/publishers/impl/BookSuggestionRabbitmqPublisherImpl.class
 pt/psoft/g1/psoftg1/shared/model/StringUtilsCustom.class
 pt/psoft/g1/psoftg1/configuration/RabbitmqClientConfig.class
+pt/psoft/g1/psoftg1/bookSuggestionManagement/model/Isbn.class
 pt/psoft/g1/psoftg1/shared/model/FileUtils.class
 pt/psoft/g1/psoftg1/bookSuggestionManagement/services/CreateBookSuggestionRequest$CreateBookSuggestionRequestBuilder.class
+pt/psoft/g1/psoftg1/shared/model/BookSuggestionEvents.class
 pt/psoft/g1/psoftg1/shared/model/Name.class
-pt/psoft/g1/psoftg1/shared/model/BookEvents.class
 pt/psoft/g1/psoftg1/shared/api/ListResponse.class
 pt/psoft/g1/psoftg1/bootstrapping/Bootstrapper.class
 pt/psoft/g1/psoftg1/shared/model/EntityWithPhoto.class

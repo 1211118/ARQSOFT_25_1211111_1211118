@@ -25,6 +25,12 @@ public class TestConfig {
         return new Queue("testQueueDeleted");
     }
 
+    @Bean(name = "autoDeleteQueue_BookSuggestion_Created")
+    public Queue testQueueBookSuggestionCreated() {
+        return new Queue("testQueueBookSuggestionCreated");
+    }
+
+
     @Bean
     public DirectExchange testDirectExchange() {
         return new DirectExchange("testExchange");

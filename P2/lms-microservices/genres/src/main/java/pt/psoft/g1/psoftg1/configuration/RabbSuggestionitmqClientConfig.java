@@ -8,7 +8,7 @@ import pt.psoft.g1.psoftg1.shared.model.GenreEvents;
 
 @Profile("!test")
 @Configuration
-public class RabbitmqClientConfig {
+public class RabbSuggestionitmqClientConfig {
 
     @Bean
     public DirectExchange direct() {

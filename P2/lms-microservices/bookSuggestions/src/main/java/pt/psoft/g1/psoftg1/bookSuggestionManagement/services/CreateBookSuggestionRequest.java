@@ -34,6 +34,11 @@ public class CreateBookSuggestionRequest {
             required = true)
     private List<Long> authors;
 
+    @Schema(description = "Isbn number of the book", 
+            example = "0-1128-5240-8",
+            required = true)
+    private String isbn;
+
     @Schema(description = "ID of the reader making the suggestion", 
             example = "1")
     private Long readerId;

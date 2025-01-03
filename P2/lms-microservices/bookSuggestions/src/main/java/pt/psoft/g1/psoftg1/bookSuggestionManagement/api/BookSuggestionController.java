@@ -21,6 +21,7 @@ public class BookSuggestionController {
             @RequestParam("title") String title,
             @RequestParam("genre") String genre,
             @RequestParam("authors") List<Long> authors,
+            @RequestParam("isbn") String isbn,
             @RequestParam(value = "description", required = false) String description,
             @RequestParam(value = "photo", required = false) MultipartFile photo,
             @RequestParam("readerId") Long readerId) {
@@ -30,6 +31,7 @@ public class BookSuggestionController {
                 .description(description)
                 .genre(genre)
                 .authors(authors)
+                .isbn(isbn)
                 .photo(photo)
                 .readerId(readerId)
                 .build();

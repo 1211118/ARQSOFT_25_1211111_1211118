@@ -14,7 +14,7 @@ public class BookSuggestionView {
     private String genre;
     private String photoURI;
     private List<Long> authors;
+    private String isbn;
     private Long suggestedByReaderId;
-    private LocalDateTime suggestedAt;
     private String status;
 }
