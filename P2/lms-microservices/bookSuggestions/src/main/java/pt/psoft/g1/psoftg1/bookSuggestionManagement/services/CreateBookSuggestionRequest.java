@@ -32,7 +32,7 @@ public class CreateBookSuggestionRequest {
     @Schema(description = "IDs of the authors", 
             example = "[1, 2]",
             required = true)
-    private List<Long> authors;
+    private List<String> authors;
 
     @Schema(description = "Isbn number of the book", 
             example = "0-1128-5240-8",

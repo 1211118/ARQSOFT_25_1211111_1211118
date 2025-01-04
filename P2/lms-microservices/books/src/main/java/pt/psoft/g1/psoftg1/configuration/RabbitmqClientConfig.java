@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Profile;
 import pt.psoft.g1.psoftg1.bookmanagement.api.BookEventRabbitmqReceiver;
 import pt.psoft.g1.psoftg1.bookmanagement.api.BookSuggestionEventRabbitmqReceiver;
 import pt.psoft.g1.psoftg1.bookmanagement.services.BookService;
+import pt.psoft.g1.psoftg1.authormanagement.services.AuthorService;
+import pt.psoft.g1.psoftg1.genremanagement.services.GenreService;
 import pt.psoft.g1.psoftg1.shared.model.BookEvents;
 import pt.psoft.g1.psoftg1.shared.model.BookSuggestionEvents;
 
@@ -85,9 +87,13 @@ public  class RabbitmqClientConfig {
 
         @Bean
         public BookSuggestionEventRabbitmqReceiver bookSuggestionReceiver(
+            AuthorService authorService,
+            GenreService genreService,
+            BookService bookService,
             @Qualifier("autoDeleteQueue_BookSuggestion_Created") Queue autoDeleteQueue_BookSuggestion_Created) {
-        return new BookSuggestionEventRabbitmqReceiver();
+            return new BookSuggestionEventRabbitmqReceiver(authorService, genreService, bookService);
         }
+
 
         @Bean
         public Queue authorCreatedQueue() {

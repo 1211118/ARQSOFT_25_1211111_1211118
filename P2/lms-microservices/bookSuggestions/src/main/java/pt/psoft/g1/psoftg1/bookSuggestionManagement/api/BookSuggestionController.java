@@ -20,7 +20,7 @@ public class BookSuggestionController {
     public ResponseEntity<BookSuggestionView> suggestBook(
             @RequestParam("title") String title,
             @RequestParam("genre") String genre,
-            @RequestParam("authors") List<Long> authors,
+            @RequestParam("authors") List<String> authors,
             @RequestParam("isbn") String isbn,
             @RequestParam(value = "description", required = false) String description,
             @RequestParam(value = "photo", required = false) MultipartFile photo,

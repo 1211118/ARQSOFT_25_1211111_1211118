@@ -1,11 +1,17 @@
 package pt.psoft.g1.psoftg1.bookmanagement.services;
 
+import pt.psoft.g1.psoftg1.authormanagement.model.Author;
 import pt.psoft.g1.psoftg1.bookmanagement.api.BookView;
 import pt.psoft.g1.psoftg1.bookmanagement.api.BookViewAMQP;
+import pt.psoft.g1.psoftg1.bookmanagement.api.BookSuggestionView;
+import pt.psoft.g1.psoftg1.bookmanagement.api.BookViewAMQP;
 import pt.psoft.g1.psoftg1.bookmanagement.model.Book;
+import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
 import pt.psoft.g1.psoftg1.shared.services.Page;
 
+
 import java.util.List;
+
 
 /**
  *
@@ -33,4 +39,10 @@ public interface BookService {
     List<Book> searchBooks(Page page, SearchBooksQuery query);
 
     void createWithAuthorAndGenre(CreateBookWithAuthorAndGenreRequest request);
+
+    BookViewAMQP toBookViewAMQP(BookSuggestionView bookSuggestionView, Genre genre, List<Author> authors);
+
+    Book createBook(BookViewAMQP bookViewAMQP);
+
+
 }

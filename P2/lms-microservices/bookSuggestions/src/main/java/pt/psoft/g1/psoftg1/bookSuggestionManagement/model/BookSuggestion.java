@@ -33,7 +33,7 @@ public class BookSuggestion {
     @CollectionTable(name = "book_suggestion_authors",
             joinColumns = @JoinColumn(name = "book_suggestion_id"))
     @Column(name = "author_id", nullable = false)
-    private List<Long> authors;
+    private List<String> authors;
 
     @Column(nullable = false)
     Isbn isbn;

@@ -8,11 +8,15 @@ import org.springframework.web.multipart.MultipartFile;
 import pt.psoft.g1.psoftg1.authormanagement.api.AuthorLendingView;
 import pt.psoft.g1.psoftg1.authormanagement.model.Author;
 import pt.psoft.g1.psoftg1.authormanagement.repositories.AuthorRepository;
+import pt.psoft.g1.psoftg1.bookmanagement.api.AuthorViewAMQP;
 import pt.psoft.g1.psoftg1.bookmanagement.model.Book;
 import pt.psoft.g1.psoftg1.bookmanagement.repositories.BookRepository;
 import pt.psoft.g1.psoftg1.exceptions.NotFoundException;
 import pt.psoft.g1.psoftg1.shared.repositories.PhotoRepository;
+import pt.psoft.g1.psoftg1.bookmanagement.publishers.BookEventsPublisher;
 
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +27,8 @@ public class AuthorServiceImpl implements AuthorService {
     private final BookRepository bookRepository;
     private final AuthorMapper mapper;
     private final PhotoRepository photoRepository;
+    private final BookEventsPublisher bookEventsPublisher; 
+
 
     @Override
     public Iterable<Author> findAll() {
@@ -111,6 +117,49 @@ public class AuthorServiceImpl implements AuthorService {
         Optional<Author> updatedAuthor = Optional.of(authorRepository.save(author));
         photoRepository.deleteByPhotoFile(photoFile);
         return updatedAuthor;
+    }
+
+    @Override
+    public List<Author> validateAuthors(List<String> authorNames) {
+        List<Author> bookAuthors = new ArrayList<>();
+
+        for (String authorName : authorNames) {
+            // Buscar autores existentes com o nome fornecido
+            List<Author> existingAuthors = findByName(authorName);
+
+            // Se não encontrar nenhum autor, cria um novo autor
+            Author author = existingAuthors.isEmpty() ? 
+                            createNewAuthor(authorName) : 
+                            existingAuthors.get(0);
+
+            // Adiciona o autor à lista
+            bookAuthors.add(author);
+        }
+
+        return bookAuthors;
+    }
+
+    @Override
+    public Author createNewAuthor(String authorName) {
+        CreateAuthorRequest createAuthorRequest = new CreateAuthorRequest();
+        createAuthorRequest.setName(authorName);
+        createAuthorRequest.setBio("default bio");
+        createAuthorRequest.setPhotoURI(null);
+        createAuthorRequest.setPhoto(null);
+
+        // Criar o autor utilizando o serviço
+        Author createdAuthor = create(createAuthorRequest);
+
+        // Criar o objeto AuthorViewAMQP para enviar no evento
+        AuthorViewAMQP authorView = new AuthorViewAMQP();
+        authorView.setName(createdAuthor.getName());
+        authorView.setBio(createdAuthor.getBio());
+       
+        // Enviar evento de criação do autor
+        bookEventsPublisher.sendAuthorCreated(authorView);
+       
+        // Retornar o autor criado
+        return createdAuthor;
     }
 
 }

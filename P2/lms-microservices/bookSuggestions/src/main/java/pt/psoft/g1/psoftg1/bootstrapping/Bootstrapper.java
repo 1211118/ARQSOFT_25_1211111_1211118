@@ -25,7 +25,7 @@ public class Bootstrapper implements CommandLineRunner {
                 .description("Example description")
                 .genre("Fiction")
                 .photoURI("example/photo/path")
-                .authors(List.of(1L)) // Adicionando um autor com ID 1
+                .authors(List.of("John Doe"))
                 .suggestedByReaderId(1L)
                 .status("PENDING")
                 .build();

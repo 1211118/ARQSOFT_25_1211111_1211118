@@ -9,6 +9,7 @@ import pt.psoft.g1.psoftg1.authormanagement.model.Author;
 import pt.psoft.g1.psoftg1.bookmanagement.api.AuthorViewAMQP;
 import pt.psoft.g1.psoftg1.bookmanagement.api.BookViewAMQP;
 import pt.psoft.g1.psoftg1.bookmanagement.api.GenreViewAMQP;
+import pt.psoft.g1.psoftg1.bookmanagement.api.BookSuggestionView;
 import pt.psoft.g1.psoftg1.bookmanagement.model.*;
 import pt.psoft.g1.psoftg1.bookmanagement.publishers.BookEventsPublisher;
 import pt.psoft.g1.psoftg1.bookmanagement.repositories.BookRepository;
@@ -270,6 +271,16 @@ public void createWithAuthorAndGenre(CreateBookWithAuthorAndGenreRequest request
                             newGenre, List.of(newAuthor), null);
     bookRepository.save(newBook);
 }
+    @Override
+    public BookViewAMQP toBookViewAMQP(BookSuggestionView bookSuggestionView, Genre genre, List<Author> authors) {
+        BookViewAMQP bookViewAMQP = new BookViewAMQP();
+        bookViewAMQP.setTitle(bookSuggestionView.getTitle());
+        bookViewAMQP.setAuthorIds(authors.stream().map(Author::getId).toList());
+        bookViewAMQP.setGenre(genre.getGenre());
+        bookViewAMQP.setDescription(bookSuggestionView.getDescription());
+        bookViewAMQP.setIsbn(bookSuggestionView.getIsbn());
+        return bookViewAMQP;
+    }
 
 /*
  * @Override
@@ -287,4 +298,20 @@ public void createWithAuthorAndGenre(CreateBookWithAuthorAndGenreRequest request
         return bookCreated;
     }
  */
+
+ @Override
+ public Book createBook(BookViewAMQP bookViewAMQP) {
+
+     final String isbn = bookViewAMQP.getIsbn();
+     final String description = bookViewAMQP.getDescription();
+     final String title = bookViewAMQP.getTitle();
+     final String photoURI = null;
+     final String genre = bookViewAMQP.getGenre();
+     final List<Long> authorIds = bookViewAMQP.getAuthorIds();
+
+     Book bookCreated = create(isbn, title, description, photoURI, genre, authorIds);
+
+     return bookCreated;
+ }
+
 }
