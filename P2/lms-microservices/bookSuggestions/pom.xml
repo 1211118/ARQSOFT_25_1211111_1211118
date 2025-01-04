@@ -133,21 +133,26 @@
 			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
 
+	<!-- 
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-contract-verifier</artifactId>
+		<version>4.2.0</version> 
+		<scope>test</scope>
+	</dependency>
 
-    <!-- JUnit 5 -->
-    <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-api</artifactId>
-        <version>5.7.0</version>
-        <scope>test</scope>
-    </dependency>
+	<dependency>
+    <groupId>org.springframework.integration</groupId>
+    <artifactId>spring-integration-core</artifactId>
+    <version>5.5.15</version> 
+	</dependency>
 
-    <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-engine</artifactId>
-        <version>5.7.0</version>
-        <scope>test</scope>
-    </dependency>
+	<dependency>
+    <groupId>org.springframework.integration</groupId>
+    <artifactId>spring-integration-amqp</artifactId>
+	</dependency>
+	-->
+
 
 
     </dependencies>
@@ -204,6 +209,24 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+
+			<!-- 
+			<plugin>
+				
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-contract-maven-plugin</artifactId>
+				<version>4.2.0</version>
+				<extensions>true</extensions>
+				<configuration>
+					<baseClassForTests>
+						pt.psoft.g1.psoftg1.bookSuggestionManagement.contracts.BaseTestClass
+					</baseClassForTests>
+					<testFramework>JUNIT5</testFramework>
+				</configuration>
+			</plugin>
+			-->
+
+
 		</plugins>
 	</build>
 
