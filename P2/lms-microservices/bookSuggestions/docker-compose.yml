@@ -1,0 +1,34 @@
+services:
+  suggestions-service:
+    build: .
+    ports:
+      - "8085:8085"
+    environment:
+      # Configuração da base de dados H2 (como no application.properties)
+      - SPRING_DATASOURCE_URL=jdbc:h2:mem:suggestions_db;IGNORECASE=TRUE
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=org.h2.Driver
+      # Configuração do RabbitMQ
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=guest
+      - SPRING_RABBITMQ_PASSWORD=guest
+      # Habilitar console H2
+      - SPRING_H2_CONSOLE_ENABLED=true
+      - SPRING_H2_CONSOLE_PATH=/h2-console
+      # Perfil ativo
+      - SPRING_PROFILES_ACTIVE=bootstrap
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"  # Porta padrão do RabbitMQ
+      - "15672:15672"  # Porta da interface de gestão
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+# Não precisamos do volume postgres_data já que estamos usando H2 em memória

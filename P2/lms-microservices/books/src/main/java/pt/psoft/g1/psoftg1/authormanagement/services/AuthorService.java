@@ -24,4 +24,11 @@ public interface AuthorService {
     List<Author> findCoAuthorsByAuthorNumber(Long authorNumber);
 
     Optional<Author> removeAuthorPhoto(Long authorNumber, long desiredVersion);
+
+    List<Author> validateAuthors(List<String> authorNames);
+
+    Author createNewAuthor(String authorName);
+
+
+
 }

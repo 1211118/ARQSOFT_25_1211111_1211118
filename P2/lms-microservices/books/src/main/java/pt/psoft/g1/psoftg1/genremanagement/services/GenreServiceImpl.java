@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import pt.psoft.g1.psoftg1.bookmanagement.api.GenreViewAMQP;
+import pt.psoft.g1.psoftg1.bookmanagement.publishers.BookEventsPublisher;
 import pt.psoft.g1.psoftg1.bookmanagement.services.GenreBookCountDTO;
 import pt.psoft.g1.psoftg1.exceptions.NotFoundException;
 import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
@@ -20,6 +23,7 @@ import java.util.Optional;
 public class GenreServiceImpl implements GenreService {
 
     private final GenreRepository genreRepository;
+    private final BookEventsPublisher bookEventsPublisher;
 
     public Optional<Genre> findByString(String name) {
         return genreRepository.findByString(name);
@@ -40,6 +44,28 @@ public class GenreServiceImpl implements GenreService {
     public Genre save(Genre genre) {
         return this.genreRepository.save(genre);
     }
+
+    @Override
+    public Genre validateGenre(String genreName) {
+        // Verifica se o género já existe
+        Optional<Genre> existingGenre = findByString(genreName);
+
+        // Se o gênero não existir, cria um novo género
+        return existingGenre.orElseGet(() -> {
+            Genre newGenre = new Genre(genreName);
+            save(newGenre);  // Salva o novo género no banco de dados
+
+            // Cria o GenreViewAMQP a partir do novo gênero
+            GenreViewAMQP genreView = new GenreViewAMQP();
+            genreView.setGenre(newGenre.getGenre());
+
+            // Envia o evento de criação do género
+            bookEventsPublisher.sendGenreCreated(genreView);
+
+            return newGenre;
+        });
+    }
+
 
 //    @Override
 //    public List<GenreLendingsPerMonthDTO> getLendingsPerMonthLastYearByGenre() {
