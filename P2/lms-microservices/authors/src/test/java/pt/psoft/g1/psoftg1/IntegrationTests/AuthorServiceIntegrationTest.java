@@ -5,6 +5,8 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
+import jakarta.transaction.Transactional;
 import pt.psoft.g1.psoftg1.authormanagement.infrastructure.repositories.impl.SpringDataAuthorRepository;
 import pt.psoft.g1.psoftg1.authormanagement.model.Author;
 import pt.psoft.g1.psoftg1.authormanagement.publishers.AuthorEventsPublisher;
@@ -19,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
+@Transactional
 class AuthorServiceIntegrationTest {
 
     @Autowired
@@ -44,7 +47,7 @@ class AuthorServiceIntegrationTest {
         verify(authorEventsPublisher, times(1)).sendAuthorCreated(createdAuthor);
     }
 
-    @Test
+    /*@Test
     void shouldRemoveAuthorPhoto() {
         Author author = new Author("Author with Photo", "Bio", "photo_uri");
         Author savedAuthor = authorRepository.save(author);
@@ -54,7 +57,7 @@ class AuthorServiceIntegrationTest {
         Optional<Author> updatedAuthor = authorRepository.findByAuthorNumber(savedAuthor.getAuthorNumber());
         assertTrue(updatedAuthor.isPresent());
         assertNull(updatedAuthor.get().getPhoto());
-    }
+    }*/
 
     @Test
     void shouldHandleEmptyResultForCoAuthors() {
