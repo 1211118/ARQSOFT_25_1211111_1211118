@@ -14,6 +14,8 @@ public interface GenreService {
 
     Optional<Genre> findByString(String name);
 
+    Genre validateGenre(String genreName);
+
 //    List<GenreBookCountDTO> findTopGenreByBooks();
 
 //    List<GenreLendingsDTO> getAverageLendings(GetAverageLendingsQuery query, Page page);

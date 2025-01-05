@@ -6,11 +6,14 @@ import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import pt.psoft.g1.psoftg1.bookmanagement.api.AuthorViewAMQP;
 import pt.psoft.g1.psoftg1.bookmanagement.api.BookViewAMQP;
 import pt.psoft.g1.psoftg1.bookmanagement.api.BookViewAMQPMapper;
+import pt.psoft.g1.psoftg1.bookmanagement.api.GenreViewAMQP;
 import pt.psoft.g1.psoftg1.bookmanagement.model.Book;
 import pt.psoft.g1.psoftg1.bookmanagement.publishers.BookEventsPublisher;
-
+import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
 import pt.psoft.g1.psoftg1.shared.model.BookEvents;
 
 @Service
@@ -58,4 +61,29 @@ public class BookEventsRabbitmqPublisherImpl implements BookEventsPublisher {
             System.out.println(" [x] Exception sending book event: '" + ex.getMessage() + "'");
         }
     }
+
+    @Override
+    public void sendAuthorCreated(AuthorViewAMQP author) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String message = objectMapper.writeValueAsString(author);
+            this.template.convertAndSend(direct.getName(), "AUTHOR_CREATED", message);
+            System.out.println(" [x] Sent AUTHOR_CREATED event: " + message);
+        } catch (Exception e) {
+            System.err.println(" [!] Failed to send AUTHOR_CREATED event: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void sendGenreCreated(GenreViewAMQP genre) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String message = objectMapper.writeValueAsString(genre);
+            template.convertAndSend(direct.getName(), "GENRE_CREATED", message);
+            System.out.println(" [x] Sent GENRE_CREATED event: " + message);
+        } catch (Exception e) {
+            System.err.println(" [!] Failed to send GENRE_CREATED event: " + e.getMessage());
+        }
+    }
+
 }
